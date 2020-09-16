@@ -1,0 +1,31 @@
+﻿
+link database:
+mongodb+srv://ddlinh:d13ml1nh0212@recipelpc.emydz.gcp.mongodb.net/RecipeLPC?retryWrites=true&w=majority
+
+Các collection hiện có:
+	- recipes: 4 sample, đủ dữ liệu gồm: name, uri, author, img, date, type, duration, complex, serve, save, description, ingredients, direction
+	- users: chưa có sample, dữ liệu dự kiến gồm: username, password, list_recipes (danh sách CT do người dùng add), save_recipes (danh sách CT do người dùng lưu)
+
+PHẢI LÀM (16/9 - 18/9)
+	- Thêm database user.
+	- Connect MongoDB đến website
+	- Tạo và đổ dữ liệu theo thẻ items
+	- Hiển thị danh sách các món ăn theo phân loại.
+	- Code giao diện Sign in.
+	- Code giao diện cho users.
+	- Code giao diện thêm recipe.
+	- Code giao diện danh sách món ăn:
+		+ Món ăn do user thêm.
+		+ Món ăn user đã lưu.
+	- Dựng chức năng Sign In.
+	- Dựng chức năng thêm / sửa / xóa công thức cho người dùng.
+	- Dựng chức năng tìm kiếm món ăn theo tên / theo nguyên liệu.
+
+
+ĐANG LÀM:
+
+
+ĐÃ LÀM:
+	- Tạo đường dẫn đến các trang chính: homepage, about, contact.
+	- Đường dẫn cho trang /recipes và các trang /recipes-cat (food, drink, salad, dessert).
+	- Thêm database cho recipes.
