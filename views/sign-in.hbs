@@ -1,0 +1,40 @@
+<form>
+    <div class="form-group">
+        <label for="usename">Username</label>
+        <input type="text" class="form-control" id="username" aria-describedby="emailHelp" placeholder="Enter email">
+        {{!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> --}}
+    </div>
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" placeholder="Password">
+    </div>
+    <button type="submit" class="btn btn-primary" id="submit">Submit</button>
+</form>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(function (e) {
+        $("#submit").click((e) => {
+            e.preventDefault()
+
+            const username = $('#username').val()
+            const password = $('#password').val()
+
+            console.log(username, password)
+
+            $.ajax({
+                url: 'sign-in',
+                method: 'post',
+                data: JSON.stringify({ username, password }),
+                contentType: 'application/json; charset=utf-8',
+                async: false,
+                success: function (data) {
+                    // redirect url /dashboard (view + route chưa code)
+                    window.location.replace(data.url)
+                },
+                error: function (error) { alert(JSON.stringify(error, null, 4)) }
+            })
+
+        })
+    })
+</script>
