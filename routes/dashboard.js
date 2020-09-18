@@ -19,8 +19,8 @@ router.get("/", async (req, res) => {
   console.log("data", data);
   res.render("pages/my_recipes", { layout: "layouts/dashboard", data: data });
 });
-
-router.post("/add-recipe", upload.single("image"), (req, res) => {
+ 
+router.post("/add-recipe", upload.single("input-b1"), (req, res) => {
   // moi du lieu trong form (txt+img)
   // luu img vao storage => url
   // text + url ==> database
