@@ -6,7 +6,6 @@ module.exports = {
   getUser: async (username) => {
     try {
       const result = await UserModel.find({ username: username });
-      console.log("result", result);
       if (result.length === 0) throw createHttpError("User not found");
       return result[0];
     } catch (error) {

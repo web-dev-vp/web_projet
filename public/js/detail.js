@@ -24,4 +24,16 @@ $("#complete-step").click(function() {
         var but_complete = document.querySelector("#complete-step");
         but_complete.className = "btn btn-success";
     }
+});
+
+$("#save-icon").click(function() {
+    var save_icon = document.querySelector("i#save");
+    var save_status = document.querySelector("span#save-status");
+    if(save_icon.className == "fa fa-bookmark-o") {
+        save_icon.className = "fa fa-bookmark";
+        save_status.innerHTML = "You have saved this recipe."
+    } else {
+        save_icon.className = "fa fa-bookmark-o";
+        save_status.innerHTML = "Save this recipe!"
+    }
 })

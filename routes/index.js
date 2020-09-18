@@ -1,5 +1,8 @@
 var express = require('express');
+const createHttpError = require("http-errors");
 var router = express.Router();
+
+const RecipeController = require("../controllers/recipes.controller");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -7,13 +10,15 @@ router.get('/', function(req, res, next) {
 });
 
 /* GET all - recipe page */
-router.get('/recipes', function(req, res, next) {
-  res.render('recipes', { title: "All Recipes - La Petite Cuisine", js_file: "./../js/recipes.js", css_file: "./../css/recipes.css" });
+router.get('/recipes', async (req, res) => {
+  const _datas = await RecipeController.load();
+  res.render('recipes', { title: "All Recipes - La Petite Cuisine", js_file: "./../js/recipes.js", css_file: "./../css/recipes.css", datas: _datas});
 });
 
 /*GET category page */
 router.get('/recipes-:cat', function(req, res, next) {
   const category = req.params.cat;
+  const _datas = await RecipeController.type(category);
   res.render('recipes_cat', { title: category + " - La Petite Cuisine", page_name: category, js_file: "./../js/recipes.js", css_file: "./../css/recipes.css" });
 });
 

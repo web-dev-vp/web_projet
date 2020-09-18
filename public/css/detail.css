@@ -20,13 +20,15 @@ div.main-detail p.description-dish {
 }
 
 div.info {
-    margin-left: 5vw;
+    margin-left: 8vw;
+    display: flex;
 }
 
-div.info .up-date {
+div.info > span {
+    display: block;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 22px;
-    margin-left: 5vw;
+    margin-right: 6vw;
 }
 
 div.info .up-date .date {
@@ -205,4 +207,13 @@ div.complete {
 
 #complete-step {
     margin: 0% 30% 2%;
+}
+
+#save-icon {
+    display: block;
+    cursor: pointer;
+}
+
+#save-icon:hover {
+    border-bottom: 1px solid #290001;
 }
