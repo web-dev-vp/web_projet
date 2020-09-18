@@ -51,10 +51,10 @@ router.post("/sign-in", async (req, res, next) => {
 const generateToke = (username) => {
   const token = jwt.sign(
     {
-      data: username,
+      username: username,
     },
     "secret",
-    { expiresIn: "1m" }
+    { expiresIn: "1h" }
   );
   console.log("token", token);
   return token;
