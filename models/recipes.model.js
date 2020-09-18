@@ -11,7 +11,7 @@ const RecipeSchema = new Schema({
   duration: Number,
   complex: String,
   serve: Number,
-  save: Number,
+  saves: Number,
   description: String,
   ingredients: Array,
   direction: Array

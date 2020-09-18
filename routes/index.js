@@ -16,7 +16,7 @@ router.get('/recipes', async (req, res) => {
 });
 
 /*GET category page */
-router.get('/recipes-:cat', function(req, res, next) {
+router.get('/recipes-:cat', async(req, res, next) => {
   const category = req.params.cat;
   const _datas = await RecipeController.type(category);
   res.render('recipes_cat', { title: category + " - La Petite Cuisine", page_name: category, js_file: "./../js/recipes.js", css_file: "./../css/recipes.css" });

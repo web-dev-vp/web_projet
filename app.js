@@ -3,6 +3,7 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+const hbs = require("hbs");
 const mongoose = require("mongoose");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -15,6 +16,8 @@ const uri = `mongodb+srv://ddlinh12:ddlinh12@recipelpc.emydz.gcp.mongodb.net/Rec
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
+hbs.registerPartials(path.join(__dirname, "views/partials"));
+
 
 app.use(logger("dev"));
 app.use(express.json());

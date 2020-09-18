@@ -371,15 +371,15 @@ button.btn.btn-default.btn-secondary.fileinput-remove.fileinput-remove-button {
 }
 
 .recipe-area .col-md-3.recipe-section {
-    margin: 0px auto 50px;
+    margin: 0px 4% 50px;
     border: 1px solid #290001;
     border-radius: 3%;
-    padding: 1%;
-    
+    height: 400px;
 }
 
 .recipe-area .col-md-3.recipe-section img {
     width: 100%;
+    height: 50%;
 }
 
 .recipe-area .col-md-3.recipe-section h4 {
