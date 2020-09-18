@@ -3,23 +3,8 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const path = require("path");
-var multer = require("multer");
 
-// config stoge
-var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "tmp/my-uploads");
-  },
-  filename: function (req, file, cb) {
-    cb(
-      null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-    );
-  },
-});
-
-var upload = multer({ storage: storage });
+const upload = require("../middlewares/upload.mdw");
 
 const recipesController = require("../controllers/recipes.controller");
 const RecipeModel = require("../models/recipes.model");
@@ -46,14 +31,14 @@ router.post("/add-recipe", upload.single("image"), (req, res) => {
   const { file } = req;
 
   const data = JSON.parse(JSON.stringify(req.body));
-  console.log('data', data)
+  console.log("data", data);
   console.log("file", file);
   res.send(file);
 
-//   // tair file leen firebase -> url
+  //   // tair file leen firebase -> url
 
-//   // firebase
-//   img-src: url
+  //   // firebase
+  //   img-src: url
 
   //   RecipesController.add({ ...recipes, username });
 });
