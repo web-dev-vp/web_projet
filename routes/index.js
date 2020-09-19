@@ -29,6 +29,7 @@ router.get("/recipes", async (req, res) => {
 router.get("/recipes-:cat", async (req, res, next) => {
   const category = req.params.cat;
   const _datas = await RecipeController.type(category);
+<<<<<<< Updated upstream
 
   res.render("recipes_cat", {
     title: category + " - La Petite Cuisine",
@@ -37,6 +38,9 @@ router.get("/recipes-:cat", async (req, res, next) => {
     css_file: "./../css/recipes.css",
     datas: _datas,
   });
+=======
+  res.render('recipes_cat', { title: category + " - La Petite Cuisine", page_name: category, js_file: "./../js/recipes.js", css_file: "./../css/recipes.css", datas: _datas});
+>>>>>>> Stashed changes
 });
 
 /* GET recipe detail page */
