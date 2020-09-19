@@ -33,9 +33,32 @@ module.exports = {
   },
   getByAuthor: async (author) => {
     try {
-      const result = await RecipesModel.find({ author: author });
+      const result = await RecipesModel.find({
+        author: author,
+        deleteDate: "",
+      });
       return result;
     } catch (error) {
+      throw createHttpError(error);
+    }
+  },
+  getLatestDel: async (author) => {
+    try {
+      const result = await RecipesModel.find({
+        author: author,
+        deleteDate: { $ne: "" },
+      }).sort({ deleteDate: -1 });
+      console.log("result", result);
+      return result[0];
+    } catch (error) {
+      throw createHttpError(error);
+    }
+  },
+  update: async (filter, update) => {
+    try {
+      await RecipesModel.findOneAndUpdate(filter, update, { new: true });
+    } catch (error) {
+      console.log("error", error);
       throw createHttpError(error);
     }
   },

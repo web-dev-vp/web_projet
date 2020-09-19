@@ -36,22 +36,120 @@
         </div>
     </div>
 </div>
+<div class="album py-5 bg-light">
+    <div class="container">
 
-{{#each data}}
-{{!-- {{>recipe_card this}} --}}
-<div class="col-md-3 recipe-section">
-    <img src={{img}} alt="">
-    <h4 class="name-dish">{{name}}</h4>
-    <ul class="stat-recipe">
-        <li class="duration"><i class="fa fa-clock-o" aria-hidden="true"></i><span class="hour"></span> <span
-                class="mins">{{duration}}</span></li>
-        <li class="complex"> <i class="fa fa-bolt" aria-hidden="true"></i> {{complex}} </li>
-        <li class="serving"> <i class="fa fa-user" aria-hidden="true"></i> {{serving}} people(s)</li>
-    </ul>
-    <button type="button" class="btn btn-secondary btn-lg explore">Explore now</button>
+        <div class="row" id="list-recipes">
+            {{#each data}}
+            <div class="col-md-4" id={{uri}}>
+                <div class="card mb-4 box-shadow">
+                    <img class="card-img-top"
+                        data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail"
+                        alt="Card image cap" src="{{img}}" height="200px">
+                    <div class="card-body">
+                        <h3>{{name}}</h3>
+                        <p class="card-text">{{description}}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary view-button">View</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary edit-button">Edit</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary delete-button"
+                                    key="{{uri}}">Delete</button>
+                            </div>
+                            <small class="text-muted">{{duration}} mins</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+
+
+
 </div>
-{{/each}}
+
+{{!-- <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="undo" data-autohide="false">
+    <div class="toast-header">
+        <img src="..." class="rounded mr-2" alt="...">
+        <strong class="mr-auto">Bootstrap</strong>
+        <small>11 mins ago</small>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="toast-body">
+        Hello, world! This is a toast message.
+    </div>
+</div> --}}
+
+<button type="button" class="btn btn-primary" id="undo" style="visibility: hidden;">Undo</button>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
+    $('.delete-button').click(function () {
+        const uri = $(this).attr('key');
 
+        // ajax post del-recipe
+        $.ajax({
+            url: '/dashboard/del-recipe',
+            method: 'post',
+            async: false,
+            data: JSON.stringify({ uri: uri }),
+            contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                alert('success')
+                var element = document.getElementById(uri);
+                element.parentNode.removeChild(element);
+                document.getElementById("undo").style.visibility = "visible"
+            },
+            error: function (err) { alert(err) }
+        })
+    });
+
+    // ajax -> deleteDate '' -> add vao giao dien
+    $('#undo').click(function () {
+        alert('click')
+
+        $.ajax({
+            url: '/dashboard/undo-del',
+            method: 'post',
+            async: false,
+            success: function (data) {
+                console.log(data)
+
+                const element = `<div class="col-md-4" id={{uri}}>
+                <div class="card mb-4 box-shadow">
+                    <img class="card-img-top"
+                        data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail"
+                        alt="Card image cap" src="${data.img}" height="200px">
+                    <div class="card-body">
+                        <h3>${data.name}}</h3>
+                        <p class="card-text">${data.description}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-sm btn-outline-secondary view-button">View</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary edit-button">Edit</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary delete-button"
+                                    key="${data.uri}">Delete</button>
+                            </div>
+                            <small class="text-muted">${data.duration} mins</small>
+                        </div>
+                    </div>
+                </div>
+            </div>`
+
+                var list = document.getElementById("list-recipes");
+
+                list.append(element);
+
+
+
+                // window.location.replace('/dashboard')
+            },
+            error: function (err) { alert(err) }
+        })
+    })
 </script>
