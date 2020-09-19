@@ -13,21 +13,53 @@ module.exports = {
       throw createHttpError(error);
     }
   },
-  add: async(data) => {
-      try {
-          await RecipesModel.create(data);
-      } catch (error) {
-          throw createHttpError(error);
-      }
+  add: async (data) => {
+    try {
+      await RecipesModel.create(data);
+    } catch (error) {
+      throw createHttpError(error);
+    }
   },
-  get: async (uri) => await RecipesModel.find({uri : uri}),
+  get: async (uri) => await RecipesModel.find({ uri: uri }),
   type: async (type) => {
     try {
       const result = await RecipesModel.find({ type: type });
-      if (result.length === 0) throw createHttpError("This category has not been created yet."); //không có type trong db
+      if (result.length === 0)
+        throw createHttpError("This category has not been created yet."); //không có type trong db
       return result;
     } catch (error) {
       throw createHttpError(error);
     }
-  }
+  },
+  getByAuthor: async (author) => {
+    try {
+      const result = await RecipesModel.find({
+        author: author,
+        deleteDate: "",
+      });
+      return result;
+    } catch (error) {
+      throw createHttpError(error);
+    }
+  },
+  getLatestDel: async (author) => {
+    try {
+      const result = await RecipesModel.find({
+        author: author,
+        deleteDate: { $ne: "" },
+      }).sort({ deleteDate: -1 });
+      console.log("result", result);
+      return result[0];
+    } catch (error) {
+      throw createHttpError(error);
+    }
+  },
+  update: async (filter, update) => {
+    try {
+      await RecipesModel.findOneAndUpdate(filter, update, { new: true });
+    } catch (error) {
+      console.log("error", error);
+      throw createHttpError(error);
+    }
+  },
 };

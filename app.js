@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 const createHttpError = require("http-errors");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 var app = express();
 
 const uri = `mongodb+srv://ddlinh12:ddlinh12@recipelpc.emydz.gcp.mongodb.net/RecipeDB?retryWrites=true&w=majority`;
@@ -18,28 +18,13 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 hbs.registerPartials(path.join(__dirname, "views/partials"));
 
-
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-const verify = (req, res, next) => {
-  const { token } = req.cookies;
-  if (token) {
-    jwt.verify(token, "secret", function (err, decoded) {
-      if (err) {
-        res.redirect("/users/sign-in");
-        throw createHttpError(err.message);
-      }
-      // const { decoded } = decoded;
-      next();
-    });
-  } else {
-    res.redirect("/users/sign-in");
-  }
-};
+const verify = require("./middlewares/verify.mdw");
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);

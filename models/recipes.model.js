@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const RecipeSchema = new Schema({
   name: String,
-  uri: {type: String, unique: true},
+  uri: { type: String, unique: true },
   author: String,
   img: String,
   date: Date,
@@ -14,7 +14,8 @@ const RecipeSchema = new Schema({
   saves: Number,
   description: String,
   ingredients: Array,
-  direction: Array
+  direction: Array,
+  deleteDate: String
 });
 
 const RecipeModel = mongoose.model("recipes", RecipeSchema);
