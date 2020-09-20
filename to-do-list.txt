@@ -19,9 +19,7 @@ PHẢI LÀM (16/9 - 20/9)
 
 	- Sửa công thức cho người dùng. (sửa)
 	- Dựng chức năng tìm kiếm món ăn theo tên / theo nguyên liệu. 
-
-	- Dựng chức năng tìm kiếm món ăn theo tên / theo nguyên liệu.
-
+	- Chỉnh sửa profile người dùng (Fullname, password)
 
 
 ĐANG LÀM:
