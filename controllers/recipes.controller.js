@@ -62,4 +62,47 @@ module.exports = {
       throw createHttpError(error);
     }
   },
+  searchByName: async (keyword) => {
+    try {
+      // const result = await RecipesModel.find({ $text: { $regex: keyword } });
+      const result = await RecipesModel.find({ name: { $regex: keyword } });
+      return result;
+    } catch (error) {
+      console.log("error", error);
+      throw createHttpError(error);
+    }
+  },
+  searchByIngredients: async (keyword) => {
+    const array = keyword.split(" ");
+    var newArray = [];
+    array.map((element) => {
+      newArray.push(new RegExp(element));
+    });
+    console.log("newArray", newArray);
+
+    try {
+      // const result = await RecipesModel.find({
+      //   ingredients: {
+      //     $in: array,
+      //   },
+      // });
+
+      // const result = await RecipesModel.find({
+      //   ingredients: {
+      //     $all: [/clove/, /1/, /teaspoon/, /coarse/, /salt/],
+      //   },
+      // });
+
+      const result = await RecipesModel.find({
+        ingredients: {
+          $all: newArray,
+        },
+      });
+
+      return result;
+    } catch (error) {
+      console.log("error", error);
+      throw createHttpError(error);
+    }
+  },
 };
