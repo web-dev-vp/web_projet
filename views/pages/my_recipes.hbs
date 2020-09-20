@@ -135,6 +135,7 @@
     bootstrapValidate("#input-b1", "required: Image of dish must not be blank.")
 
     $('.delete-button').click(function () {
+        alert('click')
         const uri = $(this).attr('key');
 
         // ajax post del-recipe
@@ -165,10 +166,11 @@
             success: function (data) {
                 console.log("delete - data now undo:");
                 console.log(data);
+            </div>
 
              //   var list = document.getElementById("list-recipes");
 
-//                list.append(element);
+                list.append(element);
                 // window.location.replace('/dashboard')
             },
             error: function (err) { alert(err) }
