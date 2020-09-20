@@ -3,7 +3,7 @@ const { create } = require("../models/recipes.model");
 const RecipesModel = require("../models/recipes.model");
 
 module.exports = {
-  load: async () => await RecipesModel.find({}),
+  load: async () => await RecipesModel.find({deleteDate: ""}),
   detail: async (uri) => {
     try {
       const result = await RecipesModel.find({ uri: uri });

@@ -45,28 +45,7 @@
             
             <h2> <img src="{{info.ava-img}}" alt="" width="180px">  {{info.fullname}}</h2>
         </div>
-        <div class="row">
-        <div class="col-4">
-            <div class="list-group" id="list-tab" role="tablist">
-                <a class="list-group-item list-group-item-action" id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">My Profile</a>
-                <a class="list-group-item list-group-item-action active" id="list-profile-list" data-toggle="list" href="#list-profile" role="tab" aria-controls="profile">My Recipes</a>
-                <a class="list-group-item list-group-item-action" id="list-messages-list" data-toggle="list" href="#list-messages" role="tab" aria-controls="messages">My Favorite Recipes</a>
-                </div>
-            </div>
-            <div class="col-8">
-                <div class="tab-content" id="nav-tabContent">
-                <div class="tab-pane fade" id="list-home" role="tabpanel" aria-labelledby="list-home-list">...</div>
-                <div class="tab-pane fade show active" id="list-profile" role="tabpanel" aria-labelledby="list-profile-list">
-                    <h1 class="h2">My Recipes</h1>
-                    {{{body}}}
-                </div> 
-                <div class="tab-pane fade" id="list-messages" role="tabpanel" aria-labelledby="list-messages-list">...</div>
-                </div>
-            </div>
-        </div>
-        </main>
-        </div>
-    </div>
+        {{{body}}}
     {{!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
         crossorigin="anonymous"></script>
