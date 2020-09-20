@@ -79,9 +79,9 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="type" class="col-form-label">Complex:
+                                        <label for="complex" class="col-form-label">Complex:
                                         </label>
-                                        <select name="type" id="type">
+                                        <select name="complex" id="complex">
                                             <option value="easy" selected>Easy</option>
                                             <option value="medium">Medium</option>
                                             <option value="hard">Hard</option>
@@ -90,20 +90,20 @@
 
                                     <div class="form-group">
                                         <label for="serve" class="col-form-label">Serving: </label>
-                                        <input type="number" class="form-control" name="duration" id="duration"
+                                        <input type="number" class="form-control" name="serve" id="serve"
                                             placeholder="How many people can use this dish"> person(s)
                                     </div>
 
                                     <div class="form-group" id="ingre-list">
                                         <h3>Ingredients:</h3>
-                                        <input type="text" class="form-control" name="ingre-1" id="ingre-1"
+                                        <input type="text" class="form-control" name="ingredients" id="ingre-1"
                                             placeholder="Ingredient 1">
                                     </div>
                                     <button type="button" id="add-ingre" class="btn btn-info">+</button>
 
                                     <div class="form-group" id="direction-list">
                                         <h3>Direction:</h3>
-                                        <input type="text" class="form-control" name="direction-1" id="direction-1"
+                                        <input type="text" class="form-control" name="direction" id="direction-1"
                                             placeholder="Direction 1">
                                     </div>
                                     <button type="button" id="add-direction" class="btn btn-info">+</button>
@@ -213,7 +213,7 @@
             var new_ingre = document.createElement("input");
             new_ingre.setAttribute("type", "text");
             new_ingre.setAttribute("class", "form-control");
-            new_ingre.setAttribute("name", `ingre-${ingre_stt}`);
+            new_ingre.setAttribute("name", `ingredients`);
             new_ingre.setAttribute("id", `ingre-${ingre_stt}`);
             new_ingre.setAttribute("placeholder", `Ingredient ${ingre_stt}`)
 
@@ -237,7 +237,7 @@
             var new_direction = document.createElement("input");
             new_direction.setAttribute("type", "text");
             new_direction.setAttribute("class", "form-control");
-            new_direction.setAttribute("name", `direction-${direction_stt}`);
+            new_direction.setAttribute("name", `direction`);
             new_direction.setAttribute("id", `direction-${direction_stt}`);
             new_direction.setAttribute("placeholder", `Direction ${direction_stt}`)
             document.getElementById("direction-list").appendChild(new_direction);
