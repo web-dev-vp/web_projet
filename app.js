@@ -28,7 +28,7 @@ const verify = require("./middlewares/verify.mdw");
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use("/dashboard", verify, require("./routes/dashboard"));
+app.use("/dashboard", require("./routes/dashboard"));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

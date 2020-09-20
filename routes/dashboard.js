@@ -23,8 +23,8 @@ router.get("/", async (req, res) => {
 
   const info_author = await userController.getUser(username);
 
-  console.log("author", info_author);
-  console.log("data", data);
+  // console.log("author", info_author);
+  // console.log("data", data);
   res.render("pages/my_recipes", {
     layout: "layouts/dashboard",
     data: data,
@@ -108,6 +108,34 @@ router.post("/undo-del", async (req, res) => {
   const { uri } = result;
   await recipesController.update({ uri: uri }, { deleteDate: "" });
   res.status(200).json(result);
+});
+
+router.post("/edit", async (req, res, next) => {
+  const { token } = req.cookies;
+  const decoded = jwt.decode(token);
+  const { username } = decoded;
+
+  var data = JSON.parse(JSON.stringify(req.body));
+  console.log("data", data);
+
+  const uri = toURI(data.name);
+
+  try {
+    await recipesController.update({ uri: uri }, { ...data });
+    const update = await recipesController.get(uri);
+    console.log("update", update);
+    res.status(200).json(update);
+  } catch (error) {
+    // next(createHttpError(error));
+    res.status(400).json(error);
+  }
+});
+
+router.post("/detail", async (req, res) => {
+  const { uri } = req.body;
+  console.log("uri", uri);
+  const result = await recipesController.get(uri);
+  res.status(200).json(result[0]);
 });
 
 const toURI = (name) => {
