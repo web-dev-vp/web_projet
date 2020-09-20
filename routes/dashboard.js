@@ -9,6 +9,7 @@ moment.locale("vn");
 const { upload, UploadImageToStorage } = require("../middlewares/upload.mdw");
 
 const recipesController = require("../controllers/recipes.controller");
+const userController = require("../controllers/users.controller")
 const RecipeModel = require("../models/recipes.model");
 const { NotExtended } = require("http-errors");
 const createHttpError = require("http-errors");
@@ -20,8 +21,11 @@ router.get("/", async (req, res) => {
 
   const data = await recipesController.getByAuthor(username);
 
+  const info_author = await userController.getUser(username);
+  
+  console.log("author", info_author);
   console.log("data", data);
-  res.render("pages/my_recipes", { layout: "layouts/dashboard", data: data });
+  res.render("pages/my_recipes", { layout: "layouts/dashboard", data: data, info: info_author });
 });
 
 router.post(
@@ -99,8 +103,7 @@ router.post("/undo-del", async (req, res) => {
 
   const { uri } = result;
   await recipesController.update({ uri: uri }, { deleteDate: "" });
-  res.status(200).json({ success: "success" });
-  
+  res.status(200).json({ success: "success" });  
 });
 
 const toURI = (name) => {

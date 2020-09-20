@@ -7,7 +7,7 @@ Các collection hiện có:
 	- users: 5 samples, gồm username, password, full_name, img_ava, list_recipes, save_recipes
 
 PHẢI LÀM (16/9 - 20/9)
-	
+
 	- Code giao diện Sign in.
 	- Code giao diện cho users.
 	- Code giao diện thêm recipe.
@@ -16,12 +16,14 @@ PHẢI LÀM (16/9 - 20/9)
 		+ Theo công thức
 	- Code giao diện danh sách món ăn:
 		+ Món ăn user đã lưu.
+
 	- Sửa công thức cho người dùng. (sửa)
 	- Dựng chức năng tìm kiếm món ăn theo tên / theo nguyên liệu. 
+	- Chỉnh sửa profile người dùng (Fullname, password)
 
 
 ĐANG LÀM:
-
+	- Dựng chức năng thêm / sửa / xóa công thức cho người dùng.
 
 ĐÃ LÀM:
 	- Tạo đường dẫn đến các trang chính: homepage, about, contact.
@@ -36,3 +38,7 @@ PHẢI LÀM (16/9 - 20/9)
 	- Hiển thị danh sách các món ăn theo phân loại.
 	- Code giao diện danh sách món ăn:
 		+ Món ăn do user thêm.
+	- Connect MongoDB đến website.
+	- Dựng chức năng Sign In.
+	- Tạo và đổ dữ liệu theo thẻ items
+	- Hiển thị danh sách các món ăn theo phân loại.	
