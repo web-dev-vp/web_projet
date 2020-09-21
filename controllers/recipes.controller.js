@@ -114,7 +114,7 @@ module.exports = {
   getLatestRecipes: async () => {
     try {
       const result = await RecipesModel.find({}).sort({ date: -1 });
-      return result.slice(0,5);
+      return result;
     } catch (error) {
       throw createHttpError(error);
     }

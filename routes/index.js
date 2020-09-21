@@ -7,7 +7,7 @@ const RecipeController = require("../controllers/recipes.controller");
 
 /* GET home page. */
 router.get("/", async (req, res, next) => {
-  const latest = await RecipeController.getLatestRecipes();
+  const latest = await (await RecipeController.getLatestRecipes()).slice(0,5);
   res.render("index", {
     title: "La Petite Cuisine",
     js_file: "./../js/recipes.js",
