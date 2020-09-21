@@ -1,15 +1,18 @@
 var express = require("express");
 const createHttpError = require("http-errors");
 var router = express.Router();
+var moment = require("moment");
 
 const RecipeController = require("../controllers/recipes.controller");
 
 /* GET home page. */
-router.get("/", function (req, res, next) {
+router.get("/", async (req, res, next) => {
+  const latest = await RecipeController.getLatestRecipes();
   res.render("index", {
     title: "La Petite Cuisine",
-    js_file: "./../js/index.js",
-    css_file: "./../css/index.css",
+    js_file: "./../js/recipes.js",
+    css_file: "./../css/recipes.css",
+    latest: latest
   });
 });
 
@@ -50,12 +53,24 @@ router.get("/recipes-:cat", async (req, res, next) => {
 });
 
 /* GET recipe detail page */
-router.get("/recipes/:uri", function (req, res, next) {
+router.get("/recipes/:uri", async (req, res, next) => {
   const name_dish = req.params.uri;
+  const data = await RecipeController.detail(name_dish);
+  const result = data[0];
+  const category = result.type.charAt(0).toUpperCase() + result.type.slice(1);
+  const up_date = moment(data[0].date).format('llll'); // Mon, Sep 21, 2020 9:43 PM
+  console.log("data detail", data[0]);
+
+  const similar = await RecipeController.similar(name_dish, result.type);
+
   res.render("detail", {
     title: name_dish + " - La Petite Cuisine",
     js_file: "./../js/detail.js",
     css_file: "./../css/detail.css",
+    data: result,
+    category: category,
+    up_date: up_date,
+    similar: similar
   });
 });
 

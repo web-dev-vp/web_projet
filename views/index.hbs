@@ -2,8 +2,12 @@
 
 <body>
   <div class="main" style="min-height: 800px;">
-    this is body
+    <h1>The Newest Recipes</h1>
+    <div>
+      {{#each latest}}
+        {{> recipe_card this}}
+      {{/each}}
     </div>
+  </div>
     
 </body>
-</html>

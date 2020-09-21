@@ -31,6 +31,16 @@ module.exports = {
       throw createHttpError(error);
     }
   },
+  similar: async (uri, type) => {
+    try {
+      const result = await RecipesModel.find({ type: type, uri: {$ne: uri} });
+      if (result.length === 0)
+        throw createHttpError("This category has not been created yet."); //không có type trong db
+      return result.slice(0,3);
+    } catch (error) {
+      throw createHttpError(error);
+    }
+  },
   getByAuthor: async (author) => {
     try {
       const result = await RecipesModel.find({
@@ -89,17 +99,6 @@ module.exports = {
     console.log("newArray", newArray);
 
     try {
-      // const result = await RecipesModel.find({
-      //   ingredients: {
-      //     $in: array,
-      //   },
-      // });
-
-      // const result = await RecipesModel.find({
-      //   ingredients: {
-      //     $all: [/clove/, /1/, /teaspoon/, /coarse/, /salt/],
-      //   },
-      // });
       const result = await RecipesModel.find({
         ingredients: {
           $all: newArray,
@@ -112,4 +111,12 @@ module.exports = {
       throw createHttpError(error);
     }
   },
+  getLatestRecipes: async () => {
+    try {
+      const result = await RecipesModel.find({}).sort({ date: -1 });
+      return result.slice(0,5);
+    } catch (error) {
+      throw createHttpError(error);
+    }
+  }
 };
