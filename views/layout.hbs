@@ -177,9 +177,20 @@
 
       function SearchItem() {
         var item = document.getElementById("search").value;
+        item = item.toLowerCase();
         var type = document.getElementById("find-type").value;
+
         if(type === "name") {
-          location.href = `/search-${item}`;
+          if(item.includes(" ")) {
+          item = item.split(" ").join("&");
+          }
+          location.href = `/search-by-name-${item}`;
+        }
+        else {
+          item = item.replace(/,\s+/g, ',');
+          item = item.replace(/\s+,/g, ',');
+          item = item.split(",").join("&");
+          location.href = `/search-by-ingre-${item}`
         }
         //alert("Searching...")
       }

@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const RecipeSchema = new Schema(
   {
-    name: { type: String, autoIndex: false },
-    uri: { type: String, unique: true, autoIndex: false },
+    name: { type: String},
+    uri: { type: String, unique: true},
     author: String,
     img: String,
     date: Date,
@@ -13,7 +13,7 @@ const RecipeSchema = new Schema(
     complex: String,
     serve: Number,
     saves: Number,
-    description: { type: String, autoIndex: false },
+    description: { type: String},
     ingredients: Array,
     direction: Array,
     deleteDate: String,

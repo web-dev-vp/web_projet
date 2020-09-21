@@ -68,31 +68,46 @@ router.get("/recipes/:uri", function (req, res, next) {
 //   res.status(200).json(searchResult);
 // });
 
-router.get("/search-:keyword", async (req, res, next) => {
+router.get("/search-by-name-:keyword", async (req, res, next) => {
 //   const { search } = req.body;
   // console.log("keyword", keyword);
-  const { keyword } = req.params;
+  let { keyword } = req.params;
   console.log("keyword:", keyword);
-  console.log("type keyword:", typeof(keyword));
-  const searchResult = await RecipeController.searchByName(keyword);
-  console.log(searchResult);
-  // res.render("recipes_cat", {
-  //   title: "Search Results - La Petite Cuisine",
-  //   page_name: `Results of ${keyword}`,
-  //   js_file: "./../js/recipes.js",
-  //   css_file: "./../css/recipes.css",
-  //   datas: searchResult,
-  // })
-  res.status(200).json(searchResult);
+  try {
+    const searchResult = await RecipeController.searchByName(keyword);
+    res.render("recipes_cat", {
+       title: "Search Results - La Petite Cuisine",
+       page_name: `Results of ${keyword.split("&").join(" ")}`,
+       js_file: "./../js/recipes.js",
+       css_file: "./../css/recipes.css",
+       datas: searchResult,
+     })
+    }
+     catch(error) {
+      next(createHttpError(error));
+     }
+  
+  //res.status(200).json(searchResult);
 });
 
-router.post("/recipes/search-by-ingre/", async (req, res, next) => {
-  const { keyword } = req.body;
+router.get("/search-by-ingre-:keyword", async (req, res, next) => {
+  const { keyword } = req.params;
   console.log("keyword", keyword);
+  try {
+    const searchResult = await RecipeController.searchByIngredients(keyword);
 
-  const searchResult = await RecipeController.searchByIngredients(keyword);
-
-  res.status(200).json(searchResult);
+    res.render("recipes_cat", {
+      title: "Search Results - La Petite Cuisine",
+      page_name: `Results of Ingredients: ${keyword.split("&").join(", ")}`,
+      js_file: "./../js/recipes.js",
+      css_file: "./../css/recipes.css",
+      datas: searchResult,
+    })
+  }
+  catch(error) {
+    next(createHttpError(error));
+  }
+  
 });
 
 module.exports = router;
