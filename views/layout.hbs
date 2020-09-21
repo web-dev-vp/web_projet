@@ -21,18 +21,19 @@
                 <div class="col-md-7 search">
                     <div class="search-group" style="position: relative;">
                         <i class="fa fa-search" aria-hidden="true" style="color: #290001; font-size: 30px; margin-right: 10px; width: 5%;"></i>
-                        <input type="search" id="search" placeholder="Search here">
-                        <i onclick="ShowUpImg()" class="fa fa-camera" aria-hidden="true" style="cursor: pointer; position: absolute; right: 5%; top: 25%; font-size: 28px"></i>
+                        <input type="search" id="search" placeholder="Type the ingredients. Ex: garlic, shrimp">
+                        <i title="Upload an image of ingredients!" id="img-search" onclick="ShowUpImg()" class="fa fa-camera" aria-hidden="true" style="cursor: pointer; position: absolute; right: 5%; top: 25%; font-size: 28px"></i>
                         
                     </div>
                     
                     <div class="input-group">
-                        <select class="form-control" id="find-type">
-                            <option value="name" selected>Name</option>
-                            <option value="ingredients">Ingredients</option>
+                      
+                        <select class="form-control" id="find-type" title="Criteres for searching">
+                            <option value="ingredients" title="Search by the ingredients">Ings</option>
+                            <option value="name" title="Search by name">Name</option>
                         </select>
                         <div class="input-group-append">
-                            <button class="btn btn-warning" type="button">Search</button>
+                            <button id="search-btn" class="btn btn-warning" type="button" onclick="SearchItem()">Search</button>
                         </div>
                     </div> 
                 </div>
@@ -150,5 +151,39 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/5.0.9/js/fileinput.min.js"></script>
     <script src="./../js/header-footer.js"></script>
     <script src={{js_file}}></script>
+
+  <script>
+    $("#find-type").change(()=>{
+      if(document.getElementById("find-type").value === "name") {
+        document.getElementById("img-search").style.visibility ="hidden";
+        document.getElementById("search").placeholder = "Type the name of dish. Ex: Grilled Shrimp";
+      }
+      else {
+        document.getElementById("img-search").style.visibility = "visible";
+        document.getElementById("search").placeholder = "Type the ingredients. Ex: garlic, shrimp";
+      }
+    })
+
+    var input = document.getElementById("search");
+    input.addEventListener("keyup", function(event) {
+        // Key 13 la phim Enter
+        if (event.keyCode === 13) {
+          // huy cac hanh vi mac dinh cua trang
+          event.preventDefault();
+          // Lien ket voi click cua nut
+          document.getElementById("search-btn").click();
+        }
+      });
+
+      function SearchItem() {
+        var item = document.getElementById("search").value;
+        var type = document.getElementById("find-type").value;
+        if(type === "name") {
+          location.href = `/search-${item}`;
+        }
+        //alert("Searching...")
+      }
+  </script>
+
 </body>
 </html>

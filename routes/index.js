@@ -68,12 +68,21 @@ router.get("/recipes/:uri", function (req, res, next) {
 //   res.status(200).json(searchResult);
 // });
 
-router.post("/recipes/search/", async (req, res, next) => {
-  const { keyword } = req.body;
-  console.log("keyword", keyword);
-
+router.get("/search-:keyword", async (req, res, next) => {
+//   const { search } = req.body;
+  // console.log("keyword", keyword);
+  const { keyword } = req.params;
+  console.log("keyword:", keyword);
+  console.log("type keyword:", typeof(keyword));
   const searchResult = await RecipeController.searchByName(keyword);
-
+  console.log(searchResult);
+  // res.render("recipes_cat", {
+  //   title: "Search Results - La Petite Cuisine",
+  //   page_name: `Results of ${keyword}`,
+  //   js_file: "./../js/recipes.js",
+  //   css_file: "./../css/recipes.css",
+  //   datas: searchResult,
+  // })
   res.status(200).json(searchResult);
 });
 

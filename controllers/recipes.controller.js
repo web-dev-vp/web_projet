@@ -65,7 +65,7 @@ module.exports = {
   searchByName: async (keyword) => {
     try {
       // const result = await RecipesModel.find({ $text: { $regex: keyword } });
-      const result = await RecipesModel.find({ name: { $regex: keyword } });
+      const result = await RecipesModel.find({ name: { $regex: /keyword/ } });
       return result;
     } catch (error) {
       console.log("error", error);

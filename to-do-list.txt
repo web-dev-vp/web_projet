@@ -10,16 +10,16 @@ PHẢI LÀM (16/9 - 20/9)
 
 	- Code giao diện Sign in.
 	- Code giao diện cho users.
-	- Code giao diện thêm recipe.
+	
 	- Code giao diện tìm kiếm:
 		+ Theo tên
 		+ Theo công thức
 	- Code giao diện danh sách món ăn:
 		+ Món ăn user đã lưu.
 
-	- Sửa công thức cho người dùng. (sửa)
-	- Dựng chức năng tìm kiếm món ăn theo tên / theo nguyên liệu. 
+	- Sửa công thức cho người dùng. (sửa) 
 	- Chỉnh sửa profile người dùng (Fullname, password)
+	- Xóa tài khoản.
 
 
 ĐANG LÀM:
@@ -40,5 +40,7 @@ PHẢI LÀM (16/9 - 20/9)
 		+ Món ăn do user thêm.
 	- Connect MongoDB đến website.
 	- Dựng chức năng Sign In.
-	- Tạo và đổ dữ liệu theo thẻ items
-	- Hiển thị danh sách các món ăn theo phân loại.	
+	- Tạo và đổ dữ liệu theo thẻ items.
+	- Hiển thị danh sách các món ăn theo phân loại.
+	- Code giao diện thêm recipe.
+	- Dựng chức năng tìm kiếm món ăn theo tên / theo nguyên liệu.
