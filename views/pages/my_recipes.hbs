@@ -124,18 +124,17 @@
                     </div>
                 </div>
 
-                <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Add Recipe Here</h5>
+                                <h5 class="modal-title" id="editModalLabel">Add Recipe Here</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="/dashboard/edit" method="post" enctype="multipart/form-data">
+                                <form action="dashboard/edit-recipe" method="post" enctype="multipart/form-data">
                                     <h3>Information Of Recipe</h3>
                                     <div class="form-group">
                                         <label for="name" class="col-form-label">Name dish: <span
@@ -213,8 +212,8 @@
                                     <div class="submit" style="text-align: right;">
                                         <button type="button" class="btn btn-secondary"
                                             data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary" id="save-button">Save
-                                            recipe</button>
+                                        <button type="submit" class="btn btn-primary" id="save-change">Save
+                                            change</button>
                                     </div>
                                 </form>
                             </div>
@@ -386,14 +385,18 @@
                                 <button type="button" class="btn btn-sm btn-outline-secondary view-button">View</button>
                                 <button type="button" class="btn btn-sm btn-outline-secondary edit-button">Edit</button>
                                 <button type="button" class="btn btn-sm btn-outline-secondary delete-button"
-                                    key="${data._doc.uri}">Delete</button>
+                                    key="${data.uri}">Delete</button>
                             </div>
                         </div>
                     </div>`
                 
                 element.addEventListener('click', (e) => {
                     const uri = e.target.getAttribute('key')
+
+                    const type = e.target.getAttribute('id')
+
                     console.log('uri', uri)
+                    console.log('type', type)
                     $.ajax({
                         url: '/dashboard/del-recipe',
                         method: 'post',
@@ -407,7 +410,10 @@
                         },
                         error: function (err) { alert(err) }
                     })
+
+
                 })
+
                 var list = document.getElementById("list-recipes");
                 list.appendChild(element);
                 
@@ -445,15 +451,15 @@
                 console.log(data)
                 _data = data
                 modal.find('.modal-title').text(`Edit recipe ${_data.name}`)
-                modal.find('.modal-body#description input').val(_data.description)
+                modal.find('textarea[name=description]').val(_data.description)
                 // TODO: chỉnh ở đoạn này để load data vào input field
+
             },
             error: function (error) { alert(error) }
         });
 
 
     })
-
 
         // button save => ajax url 'dashboard/edit'
 

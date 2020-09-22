@@ -64,8 +64,8 @@ router.post(
           (async () => {
             await recipesController.add(data);
 
-            const load = await recipesController.getByAuthor(username);
-            console.log("load", load);
+            // const load = await recipesController.getByAuthor(username);
+            // console.log("load", load);
             // res.status(200).send(load);
 
             res.redirect("/dashboard");
@@ -116,26 +116,63 @@ router.post("/undo-del", async (req, res) => {
   
 });
 
-router.post("/edit", async (req, res, next) => {
-  const { token } = req.cookies;
-  const decoded = jwt.decode(token);
-  const { username } = decoded;
+router.post(
+  "/edit-recipe",
+  upload.single("input-b1"),
+  async (req, res, next) => {
+    // moi du lieu trong form (txt+img)
+    // luu img vao storage => url
+    // text + url ==> database
+    const { token } = req.cookies;
+    const decoded = jwt.decode(token);
+    const { username } = decoded;
 
-  var data = JSON.parse(JSON.stringify(req.body));
-  console.log("data", data);
+    var data = JSON.parse(JSON.stringify(req.body));
+    console.log("data", data);
 
-  const uri = toURI(data.name);
+    const { name } = data;
+    const uri = toURI(name);
 
-  try {
-    await recipesController.update({ uri: uri }, { ...data });
-    const update = await recipesController.get(uri);
-    console.log("update", update);
-    res.status(200).json(update);
-  } catch (error) {
-    // next(createHttpError(error));
-    res.status(400).json(error);
+    const { file } = req;
+    if (file) {
+      UploadImageToStorage(file)
+        .then((success) => {
+          console.log("success", success);
+
+          data = {
+            ...data,
+            uri,
+            img: success,
+          };
+          console.log("data", data);
+
+          try {
+            (async () => {
+              await recipesController.update({ uri: uri }, { ...data });
+
+              // const load = await recipesController.getByAuthor(username);
+              // console.log("load", load);
+              // res.status(200).send(load);
+
+              res.redirect("/dashboard");
+            })();
+          } catch (error) {
+            next(createHttpError(err));
+          }
+        })
+        .catch((err) => {
+          next(createHttpError(err));
+        });
+    } else {
+      try {
+        await recipesController.update({ uri: uri }, { ...data });
+        res.redirect("/dashboard");
+      } catch (error) {
+        next(createHttpError(err));
+      }
+    }
   }
-});
+);
 
 router.post("/detail", async (req, res) => {
   const { uri } = req.body;
