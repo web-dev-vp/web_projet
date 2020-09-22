@@ -23,7 +23,7 @@
                     data-whatever="@mdo" onclick="ValidateAdd()">+ Add
                     recipe</button>
 
-                {{!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -124,20 +124,20 @@
 
 
                     </div>
-                </div> --}}
+                </div>
 
-                <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Add Recipe Here</h5>
+                                <h5 class="modal-title" id="editModalLabel">Add Recipe Here</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="/dashboard/edit" method="post" enctype="multipart/form-data">
+                                <form action="dashboard/edit-recipe" method="post">
                                     <h3>Information Of Recipe</h3>
                                     <div class="form-group">
                                         <label for="name" class="col-form-label">Name dish: <span
@@ -171,9 +171,9 @@
                       </textarea>
                                     </div>
 
-                                    {{!-- <label for="input-b1">Upload an image of your dish:</label>
+                                    <label for="input-b1">Upload an image of your dish:</label>
                                     <input id="input-b1" name="input-b1" type="file" class="file"
-                                        data-browse-on-zone-click="true"> --}}
+                                        data-browse-on-zone-click="true">
 
                                     <div class="form-group">
                                         <label for="duration" class="col-form-label">Duration: </label>
@@ -215,8 +215,8 @@
                                     <div class="submit" style="text-align: right;">
                                         <button type="button" class="btn btn-secondary"
                                             data-dismiss="modal">Close</button>
-                                        <button type="submit" class="btn btn-primary" id="save-button">Save
-                                            recipe</button>
+                                        <button type="submit" class="btn btn-primary" id="save-change">Save
+                                            change</button>
                                     </div>
                                 </form>
                             </div>
@@ -463,7 +463,6 @@
 
 
     })
-
 
         // button save => ajax url 'dashboard/edit'
 
