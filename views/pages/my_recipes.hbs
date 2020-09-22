@@ -126,8 +126,8 @@
                     </div>
                 </div> --}}
 
-                <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -352,7 +352,6 @@
     }
 
     $('.delete-button').click(function () {
-        alert('click')
         const uri = $(this).attr('key');
         console.log("uri deleting:", uri);
         // ajax post del-recipe
@@ -363,7 +362,6 @@
             data: JSON.stringify({ uri: uri }),
             contentType: 'application/json; charset=utf-8',
             success: function (data) {
-                alert('success')
                 var element = document.getElementById(uri);
                 element.parentNode.removeChild(element);
                 document.getElementById("undo").style.visibility = "visible";
@@ -374,23 +372,22 @@
     });
     // ajax -> deleteDate '' -> add vao giao dien
     $('#undo').click(function () {
-        alert('click')
         $.ajax({
             url: '/dashboard/undo-del',
             method: 'post',
             async: false,
             success: function (data) {
                 console.log(data);
-             //   const element = document.createElement("div");
-              //  element.setAttribute("class", "col-md-4");
-               // element.setAttribute("id", `${data.uri}`);
-                const undo_card = `<div class="col-md-4" id=${data.uri}>
+                const element = document.createElement("div");
+                element.setAttribute("class", "col-md-4");
+                element.setAttribute("id", `${data.uri}`);
+                const undo_card = `
                 <div class="card mb-4 box-shadow">
                     <img class="card-img-top"
                         data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail"
                         alt="Card image cap" src="${data.img}" height="200px">
                     <div class="card-body">
-                        <h3>{{name}}</h3>
+                        <h3>${data.name}</h3>
                         <p class="card-text">${data.description}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
@@ -400,12 +397,10 @@
                                     key="${data.uri}">Delete</button>
                             </div>
                         </div>
-                    </div>
-                </div>`
+                    </div>`
                 element.addEventListener('click', (e) => {
                     const uri = e.target.getAttribute('key')
                     console.log('uri', uri)
-                    alert(uri)
                     $.ajax({
                         url: '/dashboard/del-recipe',
                         method: 'post',
@@ -413,7 +408,6 @@
                         data: JSON.stringify({ uri: uri }),
                         contentType: 'application/json; charset=utf-8',
                         success: function (data) {
-                            alert(uri)
                             var element = document.getElementById(uri);
                             element.parentNode.removeChild(element);
                             document.getElementById("undo").style.visibility = "visible";
