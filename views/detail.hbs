@@ -15,14 +15,6 @@
           </h1>
           <div class="info">
             <span class="up-date">Update:<span class="date">{{up_date}}</span></span>
-            <span class="saved">
-              <i class="fa fa-bookmark" aria-hidden="true"></i>
-              {{data.saves}}
-            </span>
-            <span id="save-icon">
-              <i id="save" class="fa fa-bookmark-o" aria-hidden="true"></i>
-              <span id="save-status">Save this recipe!</span>
-            </span>
           </div>
           <p class="description-dish">
             {{data.description}}
@@ -110,9 +102,11 @@
     <h3>The similar recipes</h3>
     <div class="row">
       {{#each similar}}
-        {{> recipe_card this}}
+          {{> recipe_card this}}
+        {{else}}
+          <p style="margin: 40px 10vw; margin-top: 0px; font-size: 25px">There is no similar recipe for this.</p>
       {{/each}}
-      
+
       {{!-- 
       <div class="col-md-3 recipe-section">
         <img src="https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimages.media-allrecipes.com%2Fuserphotos%2F1153504.jpg&w=596&h=399&c=sc&poi=face&q=85" alt="">
@@ -127,6 +121,8 @@
       </div>
     </div>--}}
     
-    <button type="button" class="btn btn-secondary btn-lg btn-block more" onclick="location.href='/recipes-{{data.type}}'">View more</button>
+      {{#if similar}}
+        <button type="button" class="btn btn-secondary btn-lg btn-block more" onclick="location.href='/recipes-{{data.type}}'">View more</button>
+      {{/if}}
   </div> 
 </body>
