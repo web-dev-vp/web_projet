@@ -17,8 +17,7 @@ const uri = `mongodb+srv://ddlinh12:ddlinh12@recipelpc.emydz.gcp.mongodb.net/Rec
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 hbs.registerPartials(path.join(__dirname, "views/partials"));
-hbs.registerHelper("plus",(value) => value + 1); //helper
-
+hbs.registerHelper("plus", (value) => value + 1); //helper
 
 app.use(logger("dev"));
 app.use(express.json());
@@ -30,7 +29,7 @@ const verify = require("./middlewares/verify.mdw");
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use("/dashboard", require("./routes/dashboard"));
+app.use("/dashboard", verify, require("./routes/dashboard"));
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -59,6 +58,5 @@ mongoose
     console.log("err", err);
     process.exit(1);
   });
-
 
 module.exports = app;

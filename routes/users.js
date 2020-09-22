@@ -48,6 +48,11 @@ router.post("/sign-in", async (req, res, next) => {
   // generate chuỗi token (jwt npm) -> cookies
 });
 
+router.get('/signout', (req,res)=>{
+  res.clearCookie('token')
+  res.redirect('/users/sign-in')
+})
+
 const generateToke = (username) => {
   const token = jwt.sign(
     {
