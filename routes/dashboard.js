@@ -144,10 +144,6 @@ router.post(
             (async () => {
               await recipesController.update({ uri: uri }, { ...data });
 
-              // const load = await recipesController.getByAuthor(username);
-              // console.log("load", load);
-              // res.status(200).send(load);
-
               res.redirect("/dashboard");
             })();
           } catch (error) {
