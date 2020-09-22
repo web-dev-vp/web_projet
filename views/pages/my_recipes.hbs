@@ -137,7 +137,7 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form action="dashboard/edit-recipe" method="post">
+                                <form action="dashboard/edit-recipe" method="post" enctype="multipart/form-data">
                                     <h3>Information Of Recipe</h3>
                                     <div class="form-group">
                                         <label for="name" class="col-form-label">Name dish: <span
@@ -392,15 +392,22 @@
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-outline-secondary view-button">View</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary edit-button">Edit</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary delete-button"
-                                    key="${data.uri}">Delete</button>
+                                <button type="button"
+                                                    class="btn btn-sm btn-outline-secondary edit-button"
+                                                    data-toggle="modal" data-target="#editModal"
+                                                    data-whatever="${data.uri}">Edit</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary delete-button" 
+                                    key="${data.uri}" id="delete-button">Delete</button>
                             </div>
                         </div>
                     </div>`
                 element.addEventListener('click', (e) => {
                     const uri = e.target.getAttribute('key')
+
+                    const type = e.target.getAttribute('id')
+
                     console.log('uri', uri)
+                    console.log('type', type)
                     $.ajax({
                         url: '/dashboard/del-recipe',
                         method: 'post',
@@ -415,7 +422,10 @@
                         },
                         error: function (err) { alert(err) }
                     })
+
+
                 })
+
                 var list = document.getElementById("list-recipes");
                 list.appendChild(element);
                 document.getElementById(`${data.uri}`).innerHTML = undo_card;
@@ -455,8 +465,9 @@
                 console.log(data)
                 _data = data
                 modal.find('.modal-title').text(`Edit recipe ${_data.name}`)
-                modal.find('.modal-body#description input').val(_data.description)
+                modal.find('textarea[name=description]').val(_data.description)
                 // TODO: chỉnh ở đoạn này để load data vào input field
+
             },
             error: function (error) { alert(error) }
         });
