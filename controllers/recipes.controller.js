@@ -53,7 +53,7 @@ module.exports = {
         deleteDate: { $ne: "" },
       }).sort({ deleteDate: -1 });
       console.log("result", result);
-      return result[0];
+      return result.slice(0,2);
     } catch (error) {
       throw createHttpError(error);
     }

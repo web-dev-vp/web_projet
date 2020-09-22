@@ -104,10 +104,16 @@ router.post("/undo-del", async (req, res) => {
   const result = await recipesController.getLatestDel(username);
 
   console.log("result", result);
-
-  const { uri } = result;
+  const { uri } = result[0];
   await recipesController.update({ uri: uri }, { deleteDate: "" });
-  res.status(200).json(result);
+  if(result.length == 1) {
+    res.status(200).json({...result[0], last:true});
+  }
+  else {
+  //  result[0]["last"] = false;
+    res.status(200).json({...result[0], last:false});
+  }
+  
 });
 
 router.post("/edit", async (req, res, next) => {
