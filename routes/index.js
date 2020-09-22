@@ -7,12 +7,16 @@ const RecipeController = require("../controllers/recipes.controller");
 
 /* GET home page. */
 router.get("/", async (req, res, next) => {
-  const latest = await (await RecipeController.getLatestRecipes()).slice(0,5);
+  const latest = (await RecipeController.getLatestRecipes()).slice(0,4);
+  const simple = (await RecipeController.getSimpleRecipes()).slice(0,6);
+  const family = (await RecipeController.getFamilyRecipes()).slice(0,5);
   res.render("index", {
     title: "La Petite Cuisine",
     js_file: "./../js/recipes.js",
     css_file: "./../css/recipes.css",
-    latest: latest
+    latest: latest,
+    simple: simple,
+    family: family
   });
 });
 
@@ -60,8 +64,7 @@ router.get("/recipes/:uri", async (req, res, next) => {
   const category = result.type.charAt(0).toUpperCase() + result.type.slice(1);
   const up_date = moment(data[0].date).format('llll'); // Mon, Sep 21, 2020 9:43 PM
   console.log("data detail", data[0]);
-
-  const similar = await RecipeController.similar(name_dish, result.type);
+  const similar = (await RecipeController.similar(name_dish, result.type)).slice(0,3);
 
   res.render("detail", {
     title: name_dish + " - La Petite Cuisine",
