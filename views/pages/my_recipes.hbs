@@ -20,8 +20,7 @@
                 aria-labelledby="list-profile-list">
                 <h1 class="h2">My Recipes</h1>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                    data-whatever="@mdo" onclick="ValidateAdd()">+ Add
-                    recipe</button>
+                    data-whatever="@mdo" onclick="ValidateAdd()"> + Add recipe</button>
 
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -64,8 +63,7 @@
                                         <label for="description" class="col-form-label">Description: <span
                                                 class="obliga">*</span> </label>
                                         <textarea name="description" id="description" cols="40" rows="5"
-                                            placeholder="Write something about your dishes.">
-                      </textarea>
+                                            placeholder="Write something about your dishes."> </textarea>
                                     </div>
 
                                     <label for="input-b1">Upload an image of your dish:</label>
@@ -82,9 +80,9 @@
                                         <label for="complex" class="col-form-label">Complex:
                                         </label>
                                         <select name="complex" id="complex">
-                                            <option value="easy" selected>Easy</option>
-                                            <option value="medium">Medium</option>
-                                            <option value="hard">Hard</option>
+                                            <option value="Easy" selected>Easy</option>
+                                            <option value="Medium">Medium</option>
+                                            <option value="Hard">Hard</option>
                                         </select>
                                     </div>
 
@@ -126,7 +124,6 @@
                     </div>
                 </div>
 
-                <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel"
                     aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -227,7 +224,8 @@
 
 
                     </div>
-                </div>
+                </div> 
+            
                 <div class="album py-5 bg-light">
                     <div class="container">
 
@@ -270,22 +268,11 @@
 
                 </div>
 
-                {{!-- <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" id="undo" data-autohide="false">
-    <div class="toast-header">
-        <img src="..." class="rounded mr-2" alt="...">
-        <strong class="mr-auto">Bootstrap</strong>
-        <small>11 mins ago</small>
-        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="toast-body">
-        Hello, world! This is a toast message.
-    </div>
-</div> --}}
-
-                <button type="button" class="btn btn-primary" id="undo" style="visibility: hidden;">Undo</button>
-                <button type="button" class="btn btn-danger" id="rm-undo" style="visibility: hidden;">X</button>
+                <div id="submit-area" style="visibility: hidden;">
+                    <button type="button" class="btn btn-primary" id="undo">Undo</button>
+                    <button type="button" class="btn btn-danger" id="rm-undo">X</button>
+                </div>
+                
             </div>
 
 
@@ -364,8 +351,7 @@
             success: function (data) {
                 var element = document.getElementById(uri);
                 element.parentNode.removeChild(element);
-                document.getElementById("undo").style.visibility = "visible";
-                document.getElementById("rm-undo").style.visibility = "visible";
+                document.getElementById("submit-area").style.visibility = "visible";
             },
             error: function (err) { alert(err) }
         })
@@ -377,30 +363,33 @@
             method: 'post',
             async: false,
             success: function (data) {
-                console.log(data);
+                console.log("data: ", data);
+                if(data.last == true) {
+                    document.getElementById("submit-area").style.visibility = "hidden";
+                }
+
                 const element = document.createElement("div");
                 element.setAttribute("class", "col-md-4");
-                element.setAttribute("id", `${data.uri}`);
+                element.setAttribute("id", `${data._doc.uri}`);
+                
                 const undo_card = `
                 <div class="card mb-4 box-shadow">
                     <img class="card-img-top"
                         data-src="holder.js/100px225?theme=thumb&bg=55595c&fg=eceeef&text=Thumbnail"
-                        alt="Card image cap" src="${data.img}" height="200px">
+                        alt="Card image cap" src="${data._doc.img}" height="200px">
                     <div class="card-body">
-                        <h3>${data.name}</h3>
-                        <p class="card-text">${data.description}</p>
+                        <h3>${data._doc.name}</h3>
+                        <p class="card-text">${data._doc.description}</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
                                 <button type="button" class="btn btn-sm btn-outline-secondary view-button">View</button>
-                                <button type="button"
-                                                    class="btn btn-sm btn-outline-secondary edit-button"
-                                                    data-toggle="modal" data-target="#editModal"
-                                                    data-whatever="${data.uri}">Edit</button>
-                                <button type="button" class="btn btn-sm btn-outline-secondary delete-button" 
-                                    key="${data.uri}" id="delete-button">Delete</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary edit-button">Edit</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary delete-button"
+                                    key="${data.uri}">Delete</button>
                             </div>
                         </div>
                     </div>`
+                
                 element.addEventListener('click', (e) => {
                     const uri = e.target.getAttribute('key')
 
@@ -417,8 +406,7 @@
                         success: function (data) {
                             var element = document.getElementById(uri);
                             element.parentNode.removeChild(element);
-                            document.getElementById("undo").style.visibility = "visible";
-                            document.getElementById("rm-undo").style.visibility = "visible";
+                            document.getElementById("submit-area").style.visibility = "visible";
                         },
                         error: function (err) { alert(err) }
                     })
@@ -428,11 +416,10 @@
 
                 var list = document.getElementById("list-recipes");
                 list.appendChild(element);
-                document.getElementById(`${data.uri}`).innerHTML = undo_card;
-
-
-                document.getElementById("undo").style.visibility = "hidden";
-                document.getElementById("rm-undo").style.visibility = "hidden";
+                
+                document.getElementById(`${data._doc.uri}`).innerHTML = undo_card;
+                
+                
                 // window.location.replace('/dashboard')
             },
             error: function (err) { alert(err) }
@@ -440,8 +427,7 @@
     });
 
     $('#rm-undo').click(function () {
-        document.getElementById("undo").style.visibility = "hidden";
-        document.getElementById("rm-undo").style.visibility = "hidden";
+        document.getElementById("submit-area").style.visibility = "hidden";
     })
 
 
