@@ -100,29 +100,21 @@
 
   <div class="recipe-area">
     <h3>The similar recipes</h3>
-    <div class="row">
-      {{#each similar}}
-          {{> recipe_card this}}
-        {{else}}
-          <p style="margin: 40px 10vw; margin-top: 0px; font-size: 25px">There is no similar recipe for this.</p>
-      {{/each}}
-
-      {{!-- 
-      <div class="col-md-3 recipe-section">
-        <img src="https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimages.media-allrecipes.com%2Fuserphotos%2F1153504.jpg&w=596&h=399&c=sc&poi=face&q=85" alt="">
-        <h4 class="name-dish">Spicy Grilled Shrimp</h4>
-        <p class="date">1/9/2020</p>
-        <ul class="stat-recipe">
-          <li class="duration"><i class="fa fa-clock-o" aria-hidden="true"></i><span class="hour"></span> <span class="mins">21 mins</span></li>
-          <li class="complex"> <i class="fa fa-bolt" aria-hidden="true"></i> Easy </li>
-          <li class="serving"> <i class="fa fa-user" aria-hidden="true"></i> 4 people</li>
-        </ul>
-        <button type="button" class="btn btn-secondary btn-lg explore">Explore now</button>
-      </div>
-    </div>--}}
-    
+    <div class="card-section">
+    <div class="container" ></div>
+    <div class="card-container" style="width: 95%; margin: 20px auto;">
+          <div class="row">
+            {{#each similar}}
+                {{> recipe_card this}}
+              {{else}}
+                <p style="margin: 40px 10vw; margin-top: 0px; font-size: 25px">There is no similar recipe for this.</p>
+            {{/each}}
+          </div>
+          </div>
+          </div>
       {{#if similar}}
         <button type="button" class="btn btn-secondary btn-lg btn-block more" onclick="location.href='/recipes-{{data.type}}'">View more</button>
       {{/if}}
-  </div> 
+  </div>
+  </div>
 </body>

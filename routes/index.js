@@ -12,8 +12,8 @@ router.get("/", async (req, res, next) => {
   const family = (await RecipeController.getFamilyRecipes()).slice(0,5);
   res.render("index", {
     title: "La Petite Cuisine",
-    js_file: "./../js/recipes.js",
-    css_file: "./../css/recipes.css",
+    js_file: "./../js/index.js",
+    css_file: "./../css/index.css",
     latest: latest,
     simple: simple,
     family: family
@@ -38,18 +38,12 @@ router.get("/recipes", async (req, res) => {
 router.get("/recipes-:cat", async (req, res, next) => {
   const category = req.params.cat;
   const _datas = await RecipeController.type(category);
+  const _type = category.charAt(0).toUpperCase() + category.slice(1);
 
   res.render("recipes_cat", {
     title: category + " - La Petite Cuisine",
     page_name: category,
-    js_file: "./../js/recipes.js",
-    css_file: "./../css/recipes.css",
-    datas: _datas,
-  });
-
-  res.render("recipes_cat", {
-    title: category + " - La Petite Cuisine",
-    page_name: category,
+    _type: _type,
     js_file: "./../js/recipes.js",
     css_file: "./../css/recipes.css",
     datas: _datas,
@@ -125,7 +119,13 @@ router.get("/search-by-ingre-:keyword", async (req, res, next) => {
   catch(error) {
     next(createHttpError(error));
   }
-  
 });
+
+router.get("/contact", function(req, res) {
+  res.render("contact", {
+    title: "Contact - La Petite Cuisine",
+    js_file: "./../js/contact.js",
+    css_file: "./../css/contact.css"})
+})
 
 module.exports = router;

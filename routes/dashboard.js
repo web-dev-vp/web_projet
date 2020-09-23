@@ -1,4 +1,4 @@
-// !!! Tại sao route dashboard phải thành file mới???
+
 
 const express = require("express");
 const router = express.Router();
@@ -130,8 +130,8 @@ router.post(
     var data = JSON.parse(JSON.stringify(req.body));
     console.log("data", data);
 
-    const { name } = data;
-    const uri = toURI(name);
+  //  const { name } = data;
+  //  const uri = toURI(name);
 
     const { file } = req;
     if (file) {
