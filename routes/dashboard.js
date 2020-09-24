@@ -106,14 +106,14 @@ router.post("/undo-del", async (req, res) => {
   console.log("result", result);
   const { uri } = result[0];
   await recipesController.update({ uri: uri }, { deleteDate: "" });
-  if(result.length == 1) {
-    res.status(200).json({...result[0], last:true});
+  if (result.length == 1) {
+    res.status(200).json({ ...result[0], last: true });
   }
   else {
-  //  result[0]["last"] = false;
-    res.status(200).json({...result[0], last:false});
+    //  result[0]["last"] = false;
+    res.status(200).json({ ...result[0], last: false });
   }
-  
+
 });
 
 router.post(
@@ -130,8 +130,8 @@ router.post(
     var data = JSON.parse(JSON.stringify(req.body));
     console.log("data", data);
 
-  //  const { name } = data;
-  //  const uri = toURI(name);
+    const { name } = data;
+    const uri = toURI(name);
 
     const { file } = req;
     if (file) {
@@ -164,7 +164,7 @@ router.post(
         await recipesController.update({ uri: uri }, { ...data });
         res.redirect("/dashboard");
       } catch (error) {
-        next(createHttpError(err));
+        next(createHttpError(error));
       }
     }
   }
