@@ -18,11 +18,11 @@ const { v4: uuidv4 } = require('uuid');
 // });
 
 const storage = new Storage({
-  projectId: "breadshop-61d69",
+  projectId: "la-petite-cuisine",
   keyFilename:
-    "configs/breadshop-61d69-firebase-adminsdk-2ayft-65a4a1e5ea.json",
+    "configs/la-petite-cuisine-firebase-adminsdk-xqouu-8f04877c72.json",
 });
-const bucket = storage.bucket("gs://breadshop-61d69.appspot.com");
+const bucket = storage.bucket("gs://la-petite-cuisine.appspot.com");
 
 var upload = multer({ storage: multer.memoryStorage() });
 
@@ -44,7 +44,7 @@ const UploadImageToStorage = (file) => {
       // getSignedUrl
 
       fileUpload
-        .getSignedUrl({ action: "read", expires: "09-19-2030" })
+        .getSignedUrl({ action: "read", expires: "09-19-2100" })
         .then((urls) => resolve(urls[0]));
 
       // resolve({ message: "Success" });

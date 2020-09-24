@@ -71,7 +71,7 @@ router.post(
             res.redirect("/dashboard");
           })();
         } catch (error) {
-          next(createHttpError(err));
+          next(createHttpError(error));
         }
       })
       .catch((err) => {
@@ -123,9 +123,9 @@ router.post(
     // moi du lieu trong form (txt+img)
     // luu img vao storage => url
     // text + url ==> database
-    const { token } = req.cookies;
-    const decoded = jwt.decode(token);
-    const { username } = decoded;
+//    const { token } = req.cookies;
+//    const decoded = jwt.decode(token);
+//    const { username } = decoded;
 
     var data = JSON.parse(JSON.stringify(req.body));
     console.log("data", data);
