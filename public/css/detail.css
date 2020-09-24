@@ -217,3 +217,80 @@ div.complete {
 #save-icon:hover {
     border-bottom: 1px solid #290001;
 }
+
+.card-section{
+    font-family: sans-serif;
+    color: #000000;
+}
+
+.card-section h2{
+    text-align: center;
+    padding-top: 15px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    font-size: 1.5rem;
+}
+
+.card-section .card .img-thum{
+    height: 100%;
+    width: 100%;
+}
+.card-section .card .img-thum img{
+    height: 300px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.card-section .card{
+    border: none;
+    margin-bottom: 40px;
+    user-select: none;
+    cursor: pointer;
+}
+
+.card-section .card:hover {
+    box-shadow: 3px 3px 8px #666;
+}
+
+
+.card-section .card a{
+    text-decoration: none;
+}
+.card-section .card .card-body{
+    padding: 0px;
+    padding-left: 2rem;
+
+}
+.card-section .card .card-body .recipe-title{
+    margin-bottom: 16px;
+    padding-top: .75em;
+    font-size: 2rem;
+
+    font-family: sans-serif;
+    letter-spacing: 0;
+    text-transform: none;
+    margin-top: 20px;
+}
+.card-section .card .card-body .recipe-title a{
+    color: #000;
+}
+.card-section .card .card-body .recipe-title a:hover{
+    color: #c8ad7f;
+}
+
+.card-section .card .card-text{
+    padding-left: 2rem;
+}
+.card-section .card .card-text strong{
+    font-size: 2rem;
+    margin-right: 5px;
+}
+
+.card-section .card .card-text .text-muted > span{
+    margin-right: 20px;
+    font-size: 16px;
+}
+.card-section .card .card-text .text-muted i{
+    margin-right: 5px;
+}

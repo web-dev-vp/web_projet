@@ -44,8 +44,7 @@
 
                                     <div class="form-group">
                                         <label for="date" class="col-form-label">Date:</label>
-                                        <input type="date" class="form-control" name="date" id="date"
-                                            onload="getDate()">
+                                        <input type="date" class="form-control" name="date" id="date">
                                     </div>
 
                                     <div class="form-group">
@@ -124,11 +123,12 @@
                     </div>
                 </div>
 
-                    aria-hidden="true">
+                <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="editModalLabel">Add Recipe Here</h5>
+                                <h5 class="modal-title" id="editModalLabel">Edit Recipe Here</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -139,21 +139,20 @@
                                     <div class="form-group">
                                         <label for="name" class="col-form-label">Name dish: <span
                                                 class="obliga">*</span> </label>
-                                        <input type="text" class="form-control" name="name" id="name"
+                                        <input type="text" class="form-control" name="name" id="name2"
                                             placeholder="Enter name dish">
                                     </div>
 
                                     <div class="form-group">
                                         <label for="date" class="col-form-label">Date:</label>
-                                        <input type="date" class="form-control" name="date" id="date"
-                                            onload="getDate()">
+                                        <input type="date" class="form-control" name="date" id="date2">
                                     </div>
 
                                     <div class="form-group">
                                         <label for="type" class="col-form-label">Type:
                                         </label>
-                                        <select name="type" id="type">
-                                            <option value="food" selected>Food</option>
+                                        <select name="type" id="type2">
+                                            <option value="food">Food</option>
                                             <option value="drink">Drink</option>
                                             <option value="dessert">Dessert</option>
                                             <option value="salad">Salad</option>
@@ -169,7 +168,7 @@
                                     </div>
 
                                     <label for="input-b1">Upload an image of your dish:</label>
-                                    <input id="input-b1" name="input-b1" type="file" class="file"
+                                    <input id="input-b1 2" name="input-b1" type="file" class="file"
                                         data-browse-on-zone-click="true">
 
                                     <div class="form-group">
@@ -182,7 +181,7 @@
                                         <label for="complex" class="col-form-label">Complex:
                                         </label>
                                         <select name="complex" id="complex">
-                                            <option value="easy" selected>Easy</option>
+                                            <option value="easy">Easy</option>
                                             <option value="medium">Medium</option>
                                             <option value="hard">Hard</option>
                                         </select>
@@ -194,17 +193,15 @@
                                             placeholder="How many people can use this dish"> person(s)
                                     </div>
 
-                                    <div class="form-group" id="ingre-list">
+                                    <div class="form-group" id="ingre-list2">
                                         <h3>Ingredients:</h3>
-                                        <input type="text" class="form-control" name="ingredients" id="ingre-1"
-                                            placeholder="Ingredient 1">
+                                        
                                     </div>
                                     <button type="button" id="add-ingre" class="btn btn-info">+</button>
 
-                                    <div class="form-group" id="direction-list">
+                                    <div class="form-group" id="direction-list2">
                                         <h3>Direction:</h3>
-                                        <input type="text" class="form-control" name="direction" id="direction-1"
-                                            placeholder="Direction 1">
+                                        
                                     </div>
                                     <button type="button" id="add-direction" class="btn btn-info">+</button>
 
@@ -452,10 +449,39 @@
             success: function (data) {
                 console.log(data)
                 _data = data
-                modal.find('.modal-title').text(`Edit recipe ${_data.name}`)
-                modal.find('textarea[name=description]').val(_data.description)
-                // TODO: chỉnh ở đoạn này để load data vào input field
+                modal.find('.modal-title').text(`Edit recipe ${_data.name}`);
+                modal.find('#name2').val(_data.name);
+                modal.find('textarea[name=description]').val(_data.description);
+                document.querySelector("#date2").valueAsDate = new Date();
+                modal.find('#type2').val(_data.type)
+                modal.find('#complex2').val(_data.complex);
+                modal.find('input.file-caption-name').val(`${_data.img}`);
+                modal.find('#duration2').val(_data.duration);
+                modal.find('#complex2').val(_data.complex);
+                modal.find('#serve2').val(_data.serve);
+                var ingre_list = document.getElementById("ingre-list2");
+                for(var i = 0; i < _data.ingredients.length; i++) {
+                    var ingre = document.createElement("input");
+                    ingre.setAttribute("type", "text");
+                    ingre.setAttribute("class", "form-control");
+                    ingre.setAttribute("name", "ingredients");
+                    ingre.setAttribute("id", `ingre-${i+1}`);
+                    ingre.setAttribute("value", `${_data.ingredients[i]}`);
+                    ingre_list.appendChild(ingre);
+                    console.log("ingre: ", _data.ingredients[i]);
+                }
 
+                var direct_list = document.getElementById("direction-list2");
+                for(var i = 0; i < _data.direction.length; i++) {
+                    var direct = document.createElement("input");
+                    direct.setAttribute("type", "text");
+                    direct.setAttribute("class", "form-control");
+                    direct.setAttribute("name", "ingredients");
+                    direct.setAttribute("id", `ingre-${i+1}`);
+                    direct.setAttribute("value", `${_data.direction[i]}`);
+                    direct_list.appendChild(direct);
+                    console.log("ingre: ", _data.direction[i]);
+                }
             },
             error: function (error) { alert(error) }
         });
