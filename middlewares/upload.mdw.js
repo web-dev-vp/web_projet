@@ -1,7 +1,8 @@
 const path = require("path");
 var multer = require("multer");
 const { Storage } = require("@google-cloud/storage");
-const { resolve } = require("path");
+const { v4: uuidv4 } = require('uuid');
+
 
 // config stoge
 // var storage = multer.diskStorage({
@@ -52,4 +53,19 @@ const UploadImageToStorage = (file) => {
   });
 };
 
-module.exports = { upload, UploadImageToStorage };
+
+////// local upload
+const localStorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "tmp/uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, uuidv4() + path.extname(file.originalname));
+  },
+});
+
+const localUpload = multer({ storage: localStorage })
+
+
+
+module.exports = { upload, UploadImageToStorage, localUpload };
