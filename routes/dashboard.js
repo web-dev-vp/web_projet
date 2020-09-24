@@ -177,6 +177,20 @@ router.post("/detail", async (req, res) => {
   res.status(200).json(result[0]);
 });
 
+// empty trash
+router.get('/rm-undo', async (req, res, next) => {
+  const { token } = req.cookies;
+  const decode = jwt.decode(token);
+  const { username } = decode;
+
+  try {
+    const result = await recipesController.removeUndo(username)
+    res.status(200).json(result)
+  } catch (error) {
+    next(createHttpError(error))
+  }
+})
+
 const toURI = (name) => {
   var string = name.toString();
   string = string.toLowerCase();
