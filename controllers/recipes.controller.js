@@ -3,7 +3,7 @@ const { create } = require("../models/recipes.model");
 const RecipesModel = require("../models/recipes.model");
 
 module.exports = {
-  load: async () => await RecipesModel.find({}),
+  load: async () => await RecipesModel.find({ deleteDate: "" }),
   detail: async (uri) => {
     try {
       const result = await RecipesModel.find({ uri: uri });
@@ -31,6 +31,10 @@ module.exports = {
       throw createHttpError(error);
     }
   },
+  similar: async (uri, type) => {
+    const result = await RecipesModel.find({ type: type, uri: { $ne: uri } });
+    return result;
+  },
   getByAuthor: async (author) => {
     try {
       const result = await RecipesModel.find({
@@ -49,7 +53,7 @@ module.exports = {
         deleteDate: { $ne: "" },
       }).sort({ deleteDate: -1 });
       console.log("result", result);
-      return result[0];
+      return result.slice(0,2);
     } catch (error) {
       throw createHttpError(error);
     }
@@ -63,9 +67,22 @@ module.exports = {
     }
   },
   searchByName: async (keyword) => {
+    console.log("keyword in search:", keyword);
+    const list_keyword = keyword.split("&");
+    var list_keys = [];
+    list_keyword.map((element) => {
+      list_keys.push(new RegExp(element));
+    });
+    console.log("list_keys", list_keys);
     try {
       // const result = await RecipesModel.find({ $text: { $regex: keyword } });
-      const result = await RecipesModel.find({ name: { $regex: keyword } });
+      const result = await RecipesModel.find({ uri: { $all: list_keys } });
+      if (result.length === 0)
+        throw createHttpError(
+          `There's no recipes which called ${keyword
+            .split("&")
+            .join(" ")} in website.`
+        ); //không có uri trong db
       return result;
     } catch (error) {
       console.log("error", error);
@@ -73,7 +90,7 @@ module.exports = {
     }
   },
   searchByIngredients: async (keyword) => {
-    const array = keyword.split(" ");
+    const array = keyword.split("&");
     var newArray = [];
     array.map((element) => {
       newArray.push(new RegExp(element));
@@ -81,27 +98,48 @@ module.exports = {
     console.log("newArray", newArray);
 
     try {
-      // const result = await RecipesModel.find({
-      //   ingredients: {
-      //     $in: array,
-      //   },
-      // });
-
-      // const result = await RecipesModel.find({
-      //   ingredients: {
-      //     $all: [/clove/, /1/, /teaspoon/, /coarse/, /salt/],
-      //   },
-      // });
-
       const result = await RecipesModel.find({
         ingredients: {
           $all: newArray,
         },
       });
-
+      if (result.length === 0)
+        throw createHttpError(
+          `There\'s no recipe which has ${keyword
+            .split("&")
+            .join(", ")} in website.`
+        ); //không có uri trong db
       return result;
     } catch (error) {
       console.log("error", error);
+      throw createHttpError(error);
+    }
+  },
+  getLatestRecipes: async () => {
+    try {
+      const result = await RecipesModel.find({}).sort({ date: -1 });
+      return result;
+    } catch (error) {
+      throw createHttpError(error);
+    }
+  },
+  getSimpleRecipes: async () => {
+    try {
+      const result = await RecipesModel.find({
+        complex: { $regex: /[Ee]asy/ },
+      }).sort({ date: -1 });
+      return result;
+    } catch (error) {
+      throw createHttpError(error);
+    }
+  },
+  getFamilyRecipes: async () => {
+    try {
+      const result = await RecipesModel.find({ serve: { $gt: 3 } }).sort({
+        date: -1,
+      });
+      return result;
+    } catch (error) {
       throw createHttpError(error);
     }
   },

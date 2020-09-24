@@ -1,4 +1,4 @@
-// !!! Tại sao route dashboard phải thành file mới???
+
 
 const express = require("express");
 const router = express.Router();
@@ -23,8 +23,8 @@ router.get("/", async (req, res) => {
 
   const info_author = await userController.getUser(username);
 
-  console.log("author", info_author);
-  console.log("data", data);
+  // console.log("author", info_author);
+  // console.log("data", data);
   res.render("pages/my_recipes", {
     layout: "layouts/dashboard",
     data: data,
@@ -64,8 +64,8 @@ router.post(
           (async () => {
             await recipesController.add(data);
 
-            const load = await recipesController.getByAuthor(username);
-            console.log("load", load);
+            // const load = await recipesController.getByAuthor(username);
+            // console.log("load", load);
             // res.status(200).send(load);
 
             res.redirect("/dashboard");
@@ -104,10 +104,77 @@ router.post("/undo-del", async (req, res) => {
   const result = await recipesController.getLatestDel(username);
 
   console.log("result", result);
-
-  const { uri } = result;
+  const { uri } = result[0];
   await recipesController.update({ uri: uri }, { deleteDate: "" });
-  res.status(200).json(result);
+  if (result.length == 1) {
+    res.status(200).json({ ...result[0], last: true });
+  }
+  else {
+    //  result[0]["last"] = false;
+    res.status(200).json({ ...result[0], last: false });
+  }
+
+});
+
+router.post(
+  "/edit-recipe",
+  upload.single("input-b1"),
+  async (req, res, next) => {
+    // moi du lieu trong form (txt+img)
+    // luu img vao storage => url
+    // text + url ==> database
+    const { token } = req.cookies;
+    const decoded = jwt.decode(token);
+    const { username } = decoded;
+
+    var data = JSON.parse(JSON.stringify(req.body));
+    console.log("data", data);
+
+    const { name } = data;
+    const uri = toURI(name);
+
+    const { file } = req;
+    if (file) {
+      UploadImageToStorage(file)
+        .then((success) => {
+          console.log("success", success);
+
+          data = {
+            ...data,
+            uri,
+            img: success,
+          };
+          console.log("data", data);
+
+          try {
+            (async () => {
+              await recipesController.update({ uri: uri }, { ...data });
+
+              res.redirect("/dashboard");
+            })();
+          } catch (error) {
+            next(createHttpError(err));
+          }
+        })
+        .catch((err) => {
+          next(createHttpError(err));
+        });
+    } else {
+      try {
+        await recipesController.update({ uri: uri }, { ...data });
+        res.redirect("/dashboard");
+      } catch (error) {
+        next(createHttpError(error));
+      }
+    }
+  }
+);
+
+router.post("/detail", async (req, res) => {
+  const { uri } = req.body;
+  console.log("uri", uri);
+  const result = await recipesController.get(uri);
+  res.status(200).json(result[0]);
 });
 
 const toURI = (name) => {
