@@ -181,6 +181,30 @@ router.get("/contact", async function (req, res) {
   });
 });
 
+router.get("/search-by-img-:keyword", async (req, res, next) => {
+  const { keyword } = req.params;
+  console.log("keyword", keyword);
+
+  const _isAuth = await isAuth(req);
+  console.log("_isAuth", _isAuth);
+
+  try {
+    const searchResult = await RecipeController.searchByImg(keyword);
+
+    res.render("recipes_cat", {
+      title: "Search Results - La Petite Cuisine",
+      page_name: `Results of Ingredients: ${keyword.split("&").join(", ")}`,
+      _type: 'Search Result',
+      js_file: "./../js/recipes.js",
+      css_file: "./../css/recipes.css",
+      datas: searchResult,
+      user: _isAuth,
+    });
+  } catch (error) {
+    next(createHttpError(error));
+  }
+});
+
 router.post("/search", localUpload.single("input-b1"), async (req, res) => {
   const { file } = req;
 
@@ -216,7 +240,7 @@ router.post("/search", localUpload.single("input-b1"), async (req, res) => {
       console.log(error);
     });
 
-  res.redirect(`/search-by-ingre-${labels}`);
+  res.redirect(`/search-by-img-${labels}`);
 
   // console.log('result', labels)
   // const result = await recipesController.searchByIngredients(labels)

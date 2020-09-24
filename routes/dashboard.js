@@ -1,5 +1,3 @@
-
-
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
@@ -53,11 +51,26 @@ router.post(
     const uri = toURI(name);
     if (!file) res.status(400).send("File not found");
 
+    var { ingredients } = data;
+    var { direction } = data;
+    console.log("ingredients", ingredients);
+    const removeItem = "";
+    filter_ingredients = ingredients.filter((item) => item != removeItem);
+    filter_direction = direction.filter((item) => item != removeItem);
+
     UploadImageToStorage(file)
       .then((success) => {
         console.log("success", success);
 
-        data = { ...data, uri, img: success, author: username, deleteDate: "" };
+        data = {
+          ...data,
+          ingredients: filter_ingredients,
+          direction: filter_direction,
+          uri,
+          img: success,
+          author: username,
+          deleteDate: "",
+        };
         console.log("data", data);
 
         try {
@@ -108,12 +121,10 @@ router.post("/undo-del", async (req, res) => {
   await recipesController.update({ uri: uri }, { deleteDate: "" });
   if (result.length == 1) {
     res.status(200).json({ ...result[0], last: true });
-  }
-  else {
+  } else {
     //  result[0]["last"] = false;
     res.status(200).json({ ...result[0], last: false });
   }
-
 });
 
 router.post(
@@ -123,9 +134,9 @@ router.post(
     // moi du lieu trong form (txt+img)
     // luu img vao storage => url
     // text + url ==> database
-//    const { token } = req.cookies;
-//    const decoded = jwt.decode(token);
-//    const { username } = decoded;
+        const { token } = req.cookies;
+        const decoded = jwt.decode(token);
+        const { username } = decoded;
 
     var data = JSON.parse(JSON.stringify(req.body));
     console.log("data", data);
@@ -133,6 +144,15 @@ router.post(
     const { name } = data;
     const uri = toURI(name);
 
+
+    var { ingredients } = data;
+    var { direction } = data;
+    console.log("ingredients", ingredients);
+    const removeItem = "";
+    filter_ingredients = ingredients.filter((item) => item != removeItem);
+    console.log("filter_ingredients", filter_ingredients);
+    filter_direction = direction.filter((item) => item != removeItem);
+    
     const { file } = req;
     if (file) {
       UploadImageToStorage(file)
@@ -141,10 +161,14 @@ router.post(
 
           data = {
             ...data,
+            ingredients: filter_ingredients,
+            direction: filter_direction,
             uri,
             img: success,
+            author: username,
+            deleteDate: ""
           };
-          console.log("data", data);
+          console.log("data for update", data);
 
           try {
             (async () => {
@@ -161,7 +185,7 @@ router.post(
         });
     } else {
       try {
-        await recipesController.update({ uri: uri }, { ...data });
+        await recipesController.update({ uri: uri }, { ...data, author: username, deleteDate: ""});
         res.redirect("/dashboard");
       } catch (error) {
         next(createHttpError(error));
@@ -178,24 +202,31 @@ router.post("/detail", async (req, res) => {
 });
 
 // empty trash
-router.get('/rm-undo', async (req, res, next) => {
+router.get("/rm-undo", async (req, res, next) => {
   const { token } = req.cookies;
   const decode = jwt.decode(token);
   const { username } = decode;
 
   try {
-    const result = await recipesController.removeUndo(username)
-    res.status(200).json(result)
+    const result = await recipesController.removeUndo(username);
+    res.status(200).json(result);
   } catch (error) {
-    next(createHttpError(error))
+    next(createHttpError(error));
   }
-})
+});
 
 const toURI = (name) => {
   var string = name.toString();
   string = string.toLowerCase();
   string = string.split(" ").join("-");
   return string;
+};
+
+const removeElement = (array, elem) => {
+  var i = array.indexOf(elem);
+  if (i > -1) {
+    array.splice(i, 1);
+  }
 };
 
 module.exports = router;

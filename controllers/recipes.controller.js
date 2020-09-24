@@ -115,6 +115,33 @@ module.exports = {
       throw createHttpError(error);
     }
   },
+  searchByImg: async (keyword) => {
+    const array = keyword.split("&");
+    var newArray = [];
+    array.map((element) => {
+      newArray.push(new RegExp(element));
+    });
+    console.log("newArray", newArray);
+
+    try {
+      const result = await RecipesModel.find({
+        ingredients: {
+          $in: newArray,
+        },
+      });
+      if (result.length === 0)
+        throw createHttpError(
+          `There\'s no recipe which has ${keyword
+            .split("&")
+            .join(", ")} in website.`
+        ); //không có uri trong db
+      return result;
+    } catch (error) {
+      console.log("error", error);
+      throw createHttpError(error);
+    }
+  }
+  ,
   getLatestRecipes: async () => {
     try {
       const result = await RecipesModel.find({}).sort({ date: -1 });
