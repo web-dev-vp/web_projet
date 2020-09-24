@@ -17,8 +17,8 @@ const uri = `mongodb+srv://ddlinh12:ddlinh12@recipelpc.emydz.gcp.mongodb.net/Rec
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "hbs");
 hbs.registerPartials(path.join(__dirname, "views/partials"));
-hbs.registerHelper("plus",(value) => value + 1); //helper +1 index
-hbs.registerHelper("if_odd", (value) => value%2 );
+hbs.registerHelper("plus", (value) => value + 1); //helper +1 index
+hbs.registerHelper("if_odd", (value) => value % 2);
 
 app.use(logger("dev"));
 app.use(express.json());

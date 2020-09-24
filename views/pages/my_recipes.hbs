@@ -308,18 +308,25 @@
             new_ingre.setAttribute("id", `ingre-${ingre_stt}`);
             new_ingre.setAttribute("placeholder", `Ingredient ${ingre_stt}`)
 
-            //      <span> <i class="fa fa-minus" aria-hidden="true"></i> </span>
-            // var rm_ingre = document.createElement("span");
-            // rm_ingre.setAttribute("class", "rm-ingre");
-            // rm_ingre.setAttribute("id", `rm-${ingre_stt}`)
-            // //<i class="fa fa-minus" aria-hidden="true"></i>
-            // var rm_icon = document.createElement("i");
-            // rm_icon.setAttribute("class", "fa fa-minus");
-            // rm_icon.setAttribute("aria-hidden", "true");
-            // rm_ingre.appendChild(rm_icon);
+            //< span > <i class="fa fa-minus" aria-hidden="true"></i> </span >
+            var rm_ingre = document.createElement("button");
+            rm_ingre.setAttribute("class", "rm-ingre");
+            rm_ingre.setAttribute("id", `rm-${ingre_stt}`)
+            //<i class="fa fa-minus" aria-hidden="true"></i>
+            var rm_icon = document.createElement("i");
+            rm_icon.setAttribute("class", "fa fa-minus");
+            rm_icon.setAttribute("aria-hidden", "true");
+            rm_ingre.appendChild(rm_icon);
+
+            rm_ingre.addEventListener('click', e => {
+                e.preventDefault()
+                alert(e.target.getAttribute('id'))
+
+                // TODO: remove by id
+            })
 
             document.getElementById("ingre-list").appendChild(new_ingre);
-            //      document.getElementById("ingre-list").appendChild(rm_icon);
+            document.getElementById("ingre-list").appendChild(rm_ingre);
         });
 
         $("#add-direction").click(function () {
@@ -425,6 +432,10 @@
 
     $('#rm-undo').click(function () {
         document.getElementById("submit-area").style.visibility = "hidden";
+        $.ajax({ url: '/dashboard/rm-undo', 
+        method: 'get', 
+        success: function (data) { console.log(data) }, 
+        error: function (error) { alert(error) } })
     })
 
 
@@ -437,6 +448,7 @@
         console.log(uri)
         var _data;
         var modal = $(this)
+
 
 
         $.ajax({

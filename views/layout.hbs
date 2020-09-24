@@ -86,9 +86,24 @@
           <li class="nav-item">
             <a class="nav-link" href="/contact">Contact</a>
           </li>
+          {{#if user.username}}
           <li class="nav-item">
-            <a class="nav-link" href="/users/sign-in"><i class="fa fa-user" aria-hidden="true"></i> Sign In </a>
+            <a class="nav-link" href="/dashboard"><i class="fa fa-user" aria-hidden="true"></i>Hello, {{user.fullname}}
+            </a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/users/signout"><i class="fa fa-user" aria-hidden="true"></i> Sign out </a>
+          </li>
+          {{else}}
+          <li class="nav-item">
+            <a class="nav-link" href="/users/sign-in"><i class="fa fa-user" aria-hidden="true"></i> Sign in </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/users/sign-as-guest"><i class="fa fa-user" aria-hidden="true"></i> Sign as guest
+            </a>
+          </li>
+          {{/if}}
+
         </ul>
       </div>
     </nav>

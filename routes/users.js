@@ -57,6 +57,43 @@ router.get('/signout', (req, res) => {
   res.redirect('/users/sign-in')
 })
 
+router.get('/sign-as-guest', async (req, res) => {
+  // const { username, password } = req.body;
+  const username = 'guest';
+  const password = 'guest18';
+  console.log("username", username);
+  console.log("password", password);
+
+  // kiểm tra xem username + pwd có trong mongoDB
+  try {
+    const users = await usersController.load();
+    console.log("users", users);
+    var user
+    try {
+      user = await usersController.getUser(username);
+    } catch (error) {
+      res.status(400).json(error)
+    }
+
+
+    // nếu validated user
+    // generate chuỗi token (jwt npm) -> cookies
+
+    if (password === user.password) {
+      const token = generateToke(username);
+      res.cookie("token", token);
+      res.redirect('/dashboard')
+    }
+
+    res.status(400).json({ message: "Invalid user" });
+  } catch (error) {
+    next(createHttpError(error));
+  }
+
+  // nếu validated user
+  // generate chuỗi token (jwt npm) -> cookies
+})
+
 const generateToke = (username) => {
   const token = jwt.sign(
     {

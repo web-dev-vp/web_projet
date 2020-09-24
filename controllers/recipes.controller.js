@@ -53,7 +53,7 @@ module.exports = {
         deleteDate: { $ne: "" },
       }).sort({ deleteDate: -1 });
       console.log("result", result);
-      return result.slice(0,2);
+      return result.slice(0, 2);
     } catch (error) {
       throw createHttpError(error);
     }
@@ -143,4 +143,13 @@ module.exports = {
       throw createHttpError(error);
     }
   },
+  removeUndo: async (username) => {
+    try {
+      const result = await RecipesModel.deleteMany({ author: username, deleteDate: { $ne: "" } })
+      return result
+    } catch (error) {
+      throw createHttpError(error);
+
+    }
+  }
 };
