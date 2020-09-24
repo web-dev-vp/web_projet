@@ -4,19 +4,29 @@ var router = express.Router();
 var moment = require("moment");
 
 const RecipeController = require("../controllers/recipes.controller");
-
+const CategoryController = require("../controllers/category.controller");
 /* GET home page. */
 router.get("/", async (req, res, next) => {
   const latest = (await RecipeController.getLatestRecipes()).slice(0,4);
   const simple = (await RecipeController.getSimpleRecipes()).slice(0,6);
   const family = (await RecipeController.getFamilyRecipes()).slice(0,5);
+
+  const food = await CategoryController.get("food")
+  const drink = await CategoryController.get("drink")
+  const dessert = await CategoryController.get("dessert")
+  const salad = await CategoryController.get("salad")
+
   res.render("index", {
     title: "La Petite Cuisine",
     js_file: "./../js/index.js",
     css_file: "./../css/index.css",
     latest: latest,
     simple: simple,
-    family: family
+    family: family,
+    food: food,
+    drink: drink,
+    salad: salad,
+    dessert: dessert
   });
 });
 
@@ -40,6 +50,7 @@ router.get("/recipes-:cat", async (req, res, next) => {
   const _datas = await RecipeController.type(category);
   const _type = category.charAt(0).toUpperCase() + category.slice(1);
 
+  const cat = await CategoryController.get(category);
   res.render("recipes_cat", {
     title: category + " - La Petite Cuisine",
     page_name: category,
@@ -47,6 +58,7 @@ router.get("/recipes-:cat", async (req, res, next) => {
     js_file: "./../js/recipes.js",
     css_file: "./../css/recipes.css",
     datas: _datas,
+    cat: cat
   });
 });
 
