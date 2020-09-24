@@ -123,8 +123,8 @@
                     </div>
                 </div>
 
-                <div class="modal fade" id="editModal" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -195,13 +195,13 @@
 
                                     <div class="form-group" id="ingre-list2">
                                         <h3>Ingredients:</h3>
-                                        
+
                                     </div>
                                     <button type="button" id="add-ingre" class="btn btn-info">+</button>
 
                                     <div class="form-group" id="direction-list2">
                                         <h3>Direction:</h3>
-                                        
+
                                     </div>
                                     <button type="button" id="add-direction" class="btn btn-info">+</button>
 
@@ -221,8 +221,8 @@
 
 
                     </div>
-                </div> 
-            
+                </div>
+
                 <div class="album py-5 bg-light">
                     <div class="container">
 
@@ -269,7 +269,7 @@
                     <button type="button" class="btn btn-primary" id="undo">Undo</button>
                     <button type="button" class="btn btn-danger" id="rm-undo">X</button>
                 </div>
-                
+
             </div>
 
 
@@ -361,14 +361,14 @@
             async: false,
             success: function (data) {
                 console.log("data: ", data);
-                if(data.last == true) {
+                if (data.last == true) {
                     document.getElementById("submit-area").style.visibility = "hidden";
                 }
 
                 const element = document.createElement("div");
                 element.setAttribute("class", "col-md-4");
                 element.setAttribute("id", `${data._doc.uri}`);
-                
+
                 const undo_card = `
                 <div class="card mb-4 box-shadow">
                     <img class="card-img-top"
@@ -386,7 +386,7 @@
                             </div>
                         </div>
                     </div>`
-                
+
                 element.addEventListener('click', (e) => {
                     const uri = e.target.getAttribute('key')
 
@@ -413,10 +413,10 @@
 
                 var list = document.getElementById("list-recipes");
                 list.appendChild(element);
-                
+
                 document.getElementById(`${data._doc.uri}`).innerHTML = undo_card;
-                
-                
+
+
                 // window.location.replace('/dashboard')
             },
             error: function (err) { alert(err) }
@@ -438,7 +438,7 @@
         var _data;
         var modal = $(this)
 
-       
+
 
         $.ajax({
             url: '/dashboard/detail',
@@ -451,6 +451,9 @@
                 _data = data
                 modal.find('.modal-title').text(`Edit recipe ${_data.name}`);
                 modal.find('#name2').val(_data.name);
+
+                $('#name2').attr('readonly', 'true')
+
                 modal.find('textarea[name=description]').val(_data.description);
                 document.querySelector("#date2").valueAsDate = new Date();
                 modal.find('#type2').val(_data.type)
@@ -460,24 +463,24 @@
                 modal.find('#complex2').val(_data.complex);
                 modal.find('#serve2').val(_data.serve);
                 var ingre_list = document.getElementById("ingre-list2");
-                for(var i = 0; i < _data.ingredients.length; i++) {
+                for (var i = 0; i < _data.ingredients.length; i++) {
                     var ingre = document.createElement("input");
                     ingre.setAttribute("type", "text");
                     ingre.setAttribute("class", "form-control");
                     ingre.setAttribute("name", "ingredients");
-                    ingre.setAttribute("id", `ingre-${i+1}`);
+                    ingre.setAttribute("id", `ingre-${i + 1}`);
                     ingre.setAttribute("value", `${_data.ingredients[i]}`);
                     ingre_list.appendChild(ingre);
                     console.log("ingre: ", _data.ingredients[i]);
                 }
 
                 var direct_list = document.getElementById("direction-list2");
-                for(var i = 0; i < _data.direction.length; i++) {
+                for (var i = 0; i < _data.direction.length; i++) {
                     var direct = document.createElement("input");
                     direct.setAttribute("type", "text");
                     direct.setAttribute("class", "form-control");
                     direct.setAttribute("name", "ingredients");
-                    direct.setAttribute("id", `ingre-${i+1}`);
+                    direct.setAttribute("id", `ingre-${i + 1}`);
                     direct.setAttribute("value", `${_data.direction[i]}`);
                     direct_list.appendChild(direct);
                     console.log("ingre: ", _data.direction[i]);
